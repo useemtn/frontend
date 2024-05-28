@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import Register from './Register.jsx'
-import Login from './Login.jsx'
 import './App.css'
+import Productos from './Productos.jsx'
+import Header from './components/Header/Header.jsx'
+import Autenticar from './Autenticar.jsx'
 
 function App() {
 
   return (
     <>
-      <h1>Hola Mundo</h1>
+      <Autenticar />
     </>
   )
 }

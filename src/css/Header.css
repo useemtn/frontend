@@ -1,0 +1,68 @@
+.dropdown-menu {
+  margin: 16px;
+  border-radius: 10px;
+  gap: 10px;
+  float: left;
+  height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+  width: 500px;
+  -webkit-box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
+  -moz-box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
+  box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
+}
+.nombre {
+  margin: 2px;
+  font-weight: bold;
+}
+.precio {
+  margin: 2px;
+  font-weight: bold;
+  color: rgb(192 132 252);
+}
+.imagen {
+  margin: 2px;
+}
+.basura {
+  margin: 2px;
+  height: 100%;
+  width: 100%;
+}
+.nombre,
+.precio,
+.imagen,
+.basura {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dropdown-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 22px;
+    margin: auto;
+}
+@media screen and (max-width: 1440px) {
+    .dropdown-menu {
+        width: 500px;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+    }
+    .dropdown-item {
+      float: none;
+    }
+  }
+  
+@media screen and (max-width: 768px) {
+    .dropdown-menu {
+        width: 300px;
+        position: absolute;
+        top: 50%;
+        right: 50%;
+    }
+    .dropdown-item {
+      float: none;
+    }
+  }
+  
