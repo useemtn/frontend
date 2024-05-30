@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import for navigation
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./components/AuthContext/AuthContext";
 const safeDocument = typeof document !== 'undefined' ? document : {};
 
 const Login = () => {
@@ -9,7 +10,8 @@ const Login = () => {
   }, []);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // Hook for navigation
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const html = safeDocument.documentElement;
   html.style.overflow = 'hidden';
 
@@ -32,7 +34,7 @@ const Login = () => {
       );
 
       console.log(response.data);
-      localStorage.setItem("token", response.data.token); // Store token
+      login(response.data.token);
       alert("Inicio de sesión exitoso");
       navigate("/index"); // Navigate to index page after successful login
     } catch (error) {

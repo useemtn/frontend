@@ -1,29 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { addToCart } from "./logic/LogicProductos";
 import "./css/Productos.css";
-import { addToFavoritos } from "./logic/LogicAddFavoritos.js";
+import { FavoritosContext } from "./Context/FavoritosContext";
 
 const Productos = () => {
   const [productos, setProductos] = useState([]);
-  const [enFavoritos, setEnFavoritos] = useState(false);
-
-  const handleClickFavoritos = async (id) => {
-    await addToFavoritos(id);
-    setEnFavoritos(!enFavoritos);
-  };
+  const { productosFavoritos, handleClickFavoritos } =
+    useContext(FavoritosContext);
 
   useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/productos/")
-      .then((response) => {
-        setProductos(response.data);
-      })
-      .catch((error) => {
-        console.error("Hubo un error al obtener los productos:", error);
-      });
+    if (localStorage.getItem("token")) {
+      axios
+        .get("http://127.0.0.1:8000/api/productos/", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          setProductos(response.data);
+        })
+        .catch((error) => {
+          console.error("Hubo un error al obtener los productos:", error);
+        });
+    } else {
+      axios
+        .get("http://127.0.0.1:8000/api/productos/")
+        .then((response) => {
+          setProductos(response.data);
+        })
+        .catch((error) => {
+          console.error("Hubo un error al obtener los productos:", error);
+        });
+    }
   }, []);
-
 
   return (
     <>
@@ -35,7 +46,11 @@ const Productos = () => {
           >
             <button
               onClick={() => handleClickFavoritos(producto.id)}
-              className='absolute end-4 top-4 rounded-full p-1.5 bg-white text-gray-900 transition hover:text-gray-900/75'
+              className={`absolute end-4 top-4 rounded-full p-1.5 text-gray-900 transition hover:text-gray-900/75 ${
+                productosFavoritos[producto.id]
+                  ? "bg-red-500 hover:text-red-500/75"
+                  : "bg-white hover:text-gray-900/75"
+              }`}
             >
               <span className="sr-only">Wishlist</span>
               <svg
@@ -55,7 +70,7 @@ const Productos = () => {
             </button>
             <div className="contenedor-imagen flex justify-center items-center p-1">
               <img
-                src={producto.imagen}
+                src={"http://127.0.0.1:8000" + `${producto.imagen}`}
                 alt={producto.nombre}
                 className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
               />

@@ -11,6 +11,26 @@
   -moz-box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
   box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
 }
+.dropdown-menu-perfil {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  gap: 10px;
+  float: left;
+  top: 50%;
+  right: 50%;
+  height: auto;
+  overflow: hidden;
+  overflow-x: hidden;
+  width: 200px;
+  -webkit-box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
+  -moz-box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
+  box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);
+}
+
 .nombre {
   margin: 2px;
   font-weight: bold;

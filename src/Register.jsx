@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from "./components/AuthContext/AuthContext";
 import { useNavigate } from 'react-router-dom'; // Import for navigation
 const safeDocument = typeof document !== 'undefined' ? document : {};
 
@@ -14,6 +15,7 @@ const Register = () => {
   const [passwordError, setPasswordError] = useState(''); // Add this line
   const [direccion, setDireccion] = useState('');
   const [imagen, setImagen] = useState(null);
+  const { login } = useContext(AuthContext);
   const html = safeDocument.documentElement;
   html.style.overflow = 'hidden';
   const navigate = useNavigate(); // Hook for navigation	    
@@ -26,7 +28,6 @@ const Register = () => {
     formData.append('email', email);
     formData.append('password', password);
     formData.append('confirm_password', confirmPassword);
-    formData.append('descripcion', descripcion);
     formData.append('direccion', direccion);
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -48,7 +49,7 @@ const Register = () => {
         },
       });
       console.log(response.data);
-      localStorage.setItem('token', response.data.token); // Store token
+      login(response.data.token);
       alert('registro exitoso');
       navigate('/index'); // Navigate to index page after successful login
     } catch (error) {

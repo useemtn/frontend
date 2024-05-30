@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from 'react';
-import Header from '../Header/Header';
 
 // Crear el contexto
 export const AuthContext = createContext();

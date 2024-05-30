@@ -3,17 +3,22 @@ import "../../css/Header.css";
 import { useContext, useEffect, useState } from "react";
 import { getCarrito } from "../../logic/LogicCarrito.js";
 import { removeProduct } from "../../logic/LogicRemoveProducto.js";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { isAuthenticated, isNotAuthenticated } = useContext(AuthContext);
   const [carrito, setCarrito] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpenProfile, setIsDropdownOpenProfile] = useState(false);
 
   const handleClick = async () => {
     const data = await getCarrito();
     setIsDropdownOpen(!isDropdownOpen);
     setCarrito(data);
   };
+  const handleClickProfile = () => {
+    setIsDropdownOpenProfile(!isDropdownOpenProfile);
+  }
   const handleRemove = async (id) => {
     await removeProduct(id);
     const data = await getCarrito();
@@ -65,7 +70,7 @@ const Header = () => {
             {isAuthenticated ? (
               <>
                 <li className="ml-2 lg:ml-4 relative inline-block">
-                  <a href="#">
+                  <a href="#" onClick={handleClickProfile}>
                     <svg
                       className="h-9 lg:h-10 p-2 text-gray-500"
                       aria-hidden="true"
@@ -82,6 +87,21 @@ const Header = () => {
                       ></path>
                     </svg>
                   </a>
+                  {isDropdownOpenProfile && (
+                    <div className="dropdown-menu-perfil z-50 absolute bg-white text-base float-left py-2 list-none text-left">
+                      <Link to = "/perfil" className="boton-perfil w-full flex items-center cursor-pointer justify-center hover:bg-gray-200">
+                        Perfil
+                      </Link>
+                      <div
+                        className="boton-cerrar font-bold text-red-500 flex items-center cursor-pointer justify-center w-full hover:bg-gray-200"
+                        onClick={() => {
+                          logout();
+                        }}
+                      >
+                        Cerrar Sesión
+                      </div>
+                    </div>
+                  )}
                 </li>
                 <li className="ml-2 lg:ml-4 relative inline-block">
                   <a href="/favoritos">

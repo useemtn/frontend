@@ -6,8 +6,10 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import MainLayout from "./components/Layout/Layout.jsx";
 import Productos from "./Productos.jsx";
+import Profile from "./components/Profile/Profile.jsx";
 import Favoritos from "./components/Favoritos/Favoritos.jsx";
 import { AuthProvider } from "./components/AuthContext/AuthContext.jsx";
+import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -17,11 +19,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/index",
-    element: <MainLayout><Productos /></MainLayout>,
+    element: (
+      <MainLayout>
+        <Productos />
+      </MainLayout>
+    ),
   },
   {
     path: "/favoritos",
-    element: <MainLayout><Favoritos /></MainLayout>,
+    element: (
+        <MainLayout>
+          <Favoritos />
+        </MainLayout>
+    ),
   },
   {
     path: "/login",
@@ -31,12 +41,18 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path: "/perfil",
+    element: <MainLayout><Profile /></MainLayout>,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <FavoritosProvider>
+        <RouterProvider router={router} />
+      </FavoritosProvider>
     </AuthProvider>
   </React.StrictMode>
 );
