@@ -80,12 +80,12 @@ const Register = () => {
                             <div className="mt-7">
                                 <input type="password" id="confirm_password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirmar Contraseña" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
                             </div>
-                            {passwordError && <p>{passwordError}</p>} {/* Show the error message if there is one */}
+                            {passwordError && <p className='text-red-500'>{passwordError}</p>} {/* Show the error message if there is one */}
                             <div className="mt-7">
                                 <input type="text" id="direccion" value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="Dirección" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
                             </div>
                             <div className="mt-7">
-                                <input type="file" id="imagen" value={imagen} onChange={(e) => setImagen(e.target.files[0])} placeholder="Imagen" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg focus:ring-0"/>
+                                <input type="file" id="imagen" onChange={(e) => setImagen(e.target.files[0])} placeholder="Imagen" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg focus:ring-0"/>
                             </div>
                             <div className="mt-7">
                                 <button type="button" onClick={handleRegister} className="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">

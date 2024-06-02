@@ -8,6 +8,7 @@ import MainLayout from "./components/Layout/Layout.jsx";
 import Productos from "./Productos.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import Favoritos from "./components/Favoritos/Favoritos.jsx";
+import Vender from "./components/Vender/Vender.jsx";
 import { AuthProvider } from "./components/AuthContext/AuthContext.jsx";
 import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/perfil",
     element: <MainLayout><Profile /></MainLayout>,
+  },
+  {
+    path: "/vender",
+    element: <MainLayout><Vender /></MainLayout>,
   },
 ]);
 

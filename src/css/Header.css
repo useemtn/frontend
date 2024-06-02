@@ -2,9 +2,12 @@
   margin: 16px;
   border-radius: 10px;
   gap: 10px;
-  float: left;
+  float: none;
   height: 300px;
-  overflow: scroll;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  overflow: auto;
   overflow-x: hidden;
   width: 500px;
   -webkit-box-shadow: -1px 2px 33px 1px rgba(0, 0, 0, 0.56);

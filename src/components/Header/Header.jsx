@@ -1,15 +1,28 @@
 import { AuthContext } from "../AuthContext/AuthContext";
 import "../../css/Header.css";
+import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { getCarrito } from "../../logic/LogicCarrito.js";
 import { removeProduct } from "../../logic/LogicRemoveProducto.js";
 import { Link } from "react-router-dom";
+import { fetchCategorias } from "../../logic/LogicGetCategorias.js";
 
 const Header = () => {
   const { isAuthenticated, isNotAuthenticated } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const [carrito, setCarrito] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpenProfile, setIsDropdownOpenProfile] = useState(false);
+  const [categorias, setCategorias] = useState([]);
+  const navigate = useNavigate(); // Hook for navigation
+  useEffect(() => {
+    const obtenerCategorias = async () => {
+      const categorias = await fetchCategorias();
+      setCategorias(categorias);
+    };
+
+    obtenerCategorias();
+  }, []);
 
   const handleClick = async () => {
     const data = await getCarrito();
@@ -18,7 +31,7 @@ const Header = () => {
   };
   const handleClickProfile = () => {
     setIsDropdownOpenProfile(!isDropdownOpenProfile);
-  }
+  };
   const handleRemove = async (id) => {
     await removeProduct(id);
     const data = await getCarrito();
@@ -40,6 +53,9 @@ const Header = () => {
         <div className="w-full max-w-xs xl:max-w-lg 2xl:max-w-2xl bg-gray-100 rounded-md hidden xl:flex items-center">
           <select className="bg-transparent uppercase font-bold text-sm p-4 mr-4">
             <option>All Categories</option>
+            {categorias.map((categoria) => (
+              <option key={categoria}>{categoria}</option>
+            ))}
           </select>
           <input
             className="border-l border-gray-300 bg-transparent font-semibold text-sm pl-4 flex-grow"
@@ -69,10 +85,10 @@ const Header = () => {
           <ul className="ml-4 xl:w-auto flex items-center justify-end">
             {isAuthenticated ? (
               <>
-                <li className="ml-2 lg:ml-4 relative inline-block">
+                <li className="ml-2 lg:ml-4 relative inline-block hover:">
                   <a href="#" onClick={handleClickProfile}>
                     <svg
-                      className="h-9 lg:h-10 p-2 text-gray-500"
+                      className="h-9 lg:h-10 p-2 text-black hover:scale-110"
                       aria-hidden="true"
                       focusable="false"
                       data-prefix="far"
@@ -89,13 +105,17 @@ const Header = () => {
                   </a>
                   {isDropdownOpenProfile && (
                     <div className="dropdown-menu-perfil z-50 absolute bg-white text-base float-left py-2 list-none text-left">
-                      <Link to = "/perfil" className="boton-perfil w-full flex items-center cursor-pointer justify-center hover:bg-gray-200">
+                      <Link
+                        to="/perfil"
+                        className="boton-perfil w-full flex items-center cursor-pointer justify-center hover:bg-gray-200"
+                      >
                         Perfil
                       </Link>
                       <div
                         className="boton-cerrar font-bold text-red-500 flex items-center cursor-pointer justify-center w-full hover:bg-gray-200"
                         onClick={() => {
                           logout();
+                          navigate("/");
                         }}
                       >
                         Cerrar Sesión
@@ -106,7 +126,7 @@ const Header = () => {
                 <li className="ml-2 lg:ml-4 relative inline-block">
                   <a href="/favoritos">
                     <svg
-                      className="h-9 lg:h-10 p-2 text-gray-500"
+                      className="h-9 lg:h-10 p-2 text-black hover:scale-110"
                       aria-hidden="true"
                       focusable="false"
                       data-prefix="far"
@@ -125,7 +145,7 @@ const Header = () => {
                 <li className="ml-2 lg:ml-4 relative inline-block">
                   <a href="#" onClick={handleClick}>
                     <svg
-                      className="h-9 lg:h-10 p-2 text-gray-500"
+                      className="h-9 lg:h-10 p-2 text-black hover:scale-110"
                       aria-hidden="true"
                       focusable="false"
                       data-prefix="far"
@@ -166,7 +186,12 @@ const Header = () => {
                                   className="h-20 w-20"
                                 />
                               </div>
-                              <div className="basura" onClick={() => handleRemove(producto.id_producto.id)}>
+                              <div
+                                className="basura"
+                                onClick={() =>
+                                  handleRemove(producto.id_producto.id)
+                                }
+                              >
                                 <svg
                                   fill="#ff0000"
                                   version="1.1"
@@ -185,18 +210,23 @@ const Header = () => {
                           <br></br>
                         </>
                       ) : (
-                        <p>No hay productos</p>
+                        <p className="flex justify-center items-center h-auto w-auto">
+                          No hay productos
+                        </p>
                       )}
                     </div>
                   )}
                 </li>
+                <li className="ml-2 lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-white font-bold text-purple-500 hover:scale-105">
+                  <a href="/vender">Vender</a>
+                </li>
               </>
             ) : (
               <>
-                <li className="ml-2 lg:ml-4 relative inline-block m-4 p-2 border-1 border-white bg-black text-white">
+                <li className="ml-2 cursor-pointer lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-white font-bold text-purple-500 hover:scale-105">
                   <a href="/login">Iniciar Sesión </a>
                 </li>
-                <li className="ml-2 lg:ml-4 relative inline-block m-4 p-2 border-1 border-white bg-black text-white">
+                <li className="ml-2 cursor-pointer lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-purple-500 font-bold text-white hover:scale-105">
                   <a href="/register">Registrarse </a>
                 </li>
               </>
