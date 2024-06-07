@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const Vender = () => {
     useEffect(() => {
-        document.title = "Vender";
+        document.title = "Subir Producto";
     }, []);
 
     const [nombre, setNombre] = useState('');
@@ -13,6 +13,8 @@ const Vender = () => {
     const [categoria, setCategoria] = useState('');
     const [precio, setPrecio] = useState('');
     const [imagen, setImagen] = useState(null);
+    const [moreImages, setMoreImages] = useState([]);
+    const [showMoreImages, setShowMoreImages] = useState(false);
     const navigate = useNavigate();
 
     const handleRegister = async (event) => {
@@ -26,6 +28,9 @@ const Vender = () => {
         if (imagen) {
             formData.append('imagen', imagen);
         }
+        moreImages.forEach((img, index) => {
+            formData.append(`imagen${index + 2}`, img);
+        });
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/productos/add/', formData, {
                 headers: {
@@ -36,32 +41,46 @@ const Vender = () => {
             console.log(response.data);
             navigate('/index');
         } catch (error) {
-            console.error('Error registrando producto:', error.response.data);
+            if (error.response && error.response.data) {
+                console.error('Error registrando producto:', error.response.data);
+            } else {
+                console.error('Error registrando producto:', error.message);
+            }
         }
+    };
+
+    const handleMoreImages = (event) => {
+        const selectedFiles = Array.from(event.target.files).slice(0, 4 - moreImages.length);
+        setMoreImages([...moreImages, ...selectedFiles]);
+    };
+
+    const handleRemoveImage = (index) => {
+        const newImages = moreImages.filter((_, i) => i !== index);
+        setMoreImages(newImages);
     };
 
     return (
         <div className="font-sans body-register">
-            <div className="relative min-h-screen min-w-full flex flex-col justify-center items-center">
-                <div className="relative sm:max-w-sm w-full">
+            <div className="relative m-auto min-h-full flex flex-col justify-center items-center">
+                <div className="relative sm:max-w-xl w-full px-4 md:px-0 mb-20"> {/* Añadí mb-20 para dar espacio al footer */}
                     <div className="card bg-purple-400 shadow-lg w-full h-full rounded-3xl absolute transform -rotate-6"></div>
                     <div className="card bg-violet-500 shadow-lg w-full h-full rounded-3xl absolute transform rotate-6"></div>
-                    <div className="relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md">
-                        <label className="block mt-3 text-sm text-gray-700 text-center font-semibold">
+                    <div className="relative w-full rounded-3xl px-6 py-8 bg-gray-100 shadow-md">
+                        <label className="block mb-6 text-sm text-gray-700 text-center font-semibold">
                             Subir producto
                         </label>
-                        <form id="registerForm" className="mt-10" onSubmit={handleRegister}>
-                            <div>
-                                <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre del producto" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
+                        <form id="registerForm" className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleRegister}>
+                            <div className="col-span-1">
+                                <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre del producto" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required/>
                             </div>
-                            <div className="mt-7">
-                                <input type="text" id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} placeholder="Descripción del producto" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
+                            <div className="col-span-1 md:col-span-2">
+                                <textarea id="descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} placeholder="Descripción del producto" className="mt-1 p-2 w-full border-none bg-gray-100 h-24 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required></textarea>
                             </div>
-                            <div className="mt-7">
-                                <input type="text" id="talla" value={talla} onChange={(e) => setTalla(e.target.value)} placeholder="Talla del producto" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
+                            <div className="col-span-1">
+                                <input type="text" id="talla" value={talla} onChange={(e) => setTalla(e.target.value)} placeholder="Talla del producto" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required/>
                             </div>
-                            <div className="mt-7">
-                                <select type="text" id="categoria" value={categoria} onChange={(e) => setCategoria(e.target.value)} placeholder="Categoría" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0">
+                            <div className="col-span-1">
+                                <select id="categoria" value={categoria} onChange={(e) => setCategoria(e.target.value)} placeholder="Categoría" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required>
                                     <option value="">Categoría</option>
                                     <option value="pantalon">Pantalones</option>
                                     <option value="camiseta">Camiseta</option>
@@ -74,13 +93,38 @@ const Vender = () => {
                                     <option value="bermuda">Bermuda</option>
                                 </select>
                             </div>
-                            <div className="mt-7">
-                                <input type="number" id="precio" value={precio} onChange={(e) => setPrecio(e.target.value)} placeholder="Precio" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"/>
+                            <div className="col-span-1">
+                                <input type="number" id="precio" value={precio} onChange={(e) => setPrecio(e.target.value)} placeholder="Precio" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required/>
                             </div>
-                            <div className="mt-7">
-                                <input type="file" id="imagen" onChange={(e) => setImagen(e.target.files[0])} placeholder="Imagen" className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg focus:ring-0"/>
+                            <div className="col-span-1 md:col-span-2">
+                                <input type="file" id="imagen" onChange={(e) => setImagen(e.target.files[0])} placeholder="Imagen" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg focus:ring-0" required/>
+                                {imagen && (
+                                    <div className="mt-4">
+                                        <img src={URL.createObjectURL(imagen)} alt="Preview" className="w-full h-32 object-cover rounded-lg shadow-md" />
+                                    </div>
+                                )}
                             </div>
-                            <div className="mt-7">
+                            <div className="col-span-1 md:col-span-2">
+                                <label className="block text-sm text-gray-700 font-semibold">¿Quieres añadir más imágenes?</label>
+                                <div className="flex items-center mt-2">
+                                    <input type="checkbox" id="addMoreImages" onChange={() => setShowMoreImages(!showMoreImages)} className="mr-2" />
+                                    <label htmlFor="addMoreImages" className="text-sm text-gray-700">Sí</label>
+                                </div>
+                            </div>
+                            {showMoreImages && (
+                                <div className="col-span-1 md:col-span-2">
+                                    <input type="file" onChange={handleMoreImages} multiple accept="image/*" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg focus:ring-0" />
+                                    <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        {moreImages.length > 0 && moreImages.map((image, index) => (
+                                            <div key={index} className="relative">
+                                                <img src={URL.createObjectURL(image)} alt={`Preview ${index + 1}`} className="w-full h-32 object-cover rounded-lg shadow-md" />
+                                                <button type="button" onClick={() => handleRemoveImage(index)} className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1">X</button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            <div className="col-span-1 md:col-span-2">
                                 <button type="submit" className="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">
                                     Subir Producto
                                 </button>

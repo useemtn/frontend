@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
+import axios from "axios";
 
 // Crear el contexto
 export const AuthContext = createContext();
@@ -7,10 +8,16 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
+  const comprobarToken = useCallback(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
   }, []);
+
+  useEffect(() => {
+    comprobarToken();
+    window.addEventListener("storage", comprobarToken);
+    return () => window.removeEventListener("storage", comprobarToken);  
+  }, [comprobarToken]);
 
   const login = (token) => {
     localStorage.setItem("token", token);
@@ -19,6 +26,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("productosFavoritos");
     setIsAuthenticated(false);
   };
 

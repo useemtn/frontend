@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { fetchCategorias } from "../../logic/LogicGetCategorias";
 
 const CategoriaSelect = ({ onCategoriaChange }) => {
@@ -7,7 +7,7 @@ const CategoriaSelect = ({ onCategoriaChange }) => {
   useEffect(() => {
     const getCategorias = async () => {
       const categorias = await fetchCategorias();
-      setCategorias(categorias || []); // Asegúrate de que siempre sea un array
+      setCategorias(categorias || []); 
     };
     getCategorias();
   }, []);

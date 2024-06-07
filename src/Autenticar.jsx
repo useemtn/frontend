@@ -22,7 +22,7 @@ const Autenticar = () => {
               <a
                 href="/login"
                 title=""
-                className="inline-flex min-w-fit justify-center items-center m-3 px-6 py-4 mt-8 font-semibold text-white transition-all duration-200 bg-blue-600 rounded-lg sm:mt-16 hover:bg-blue-700 focus:bg-blue-700"
+                className="inline-flex min-w-fit justify-center items-center m-3 px-6 py-4 mt-8 font-semibold text-white transition-all duration-200 bg-purple-500 rounded-lg sm:mt-16 hover:bg-purple-600 focus:bg-purple-600"
                 role="button"
               >
                 Iniciar Sesión
@@ -44,7 +44,7 @@ const Autenticar = () => {
               <a
                 href="/register"
                 title=""
-                className="inline-flex min-w-fit justify-center items-center m-3 px-6 py-4 mt-8 font-semibold text-white transition-all duration-200 bg-blue-600 rounded-lg sm:mt-16 hover:bg-blue-700 focus:bg-blue-700"
+                className="inline-flex min-w-fit justify-center items-center m-3 px-6 py-4 mt-8 font-semibold text-white transition-all duration-200 bg-purple-500 rounded-lg sm:mt-16 hover:bg-purple-600 focus:bg-purple-600"
                 role="button"
               >
                 Regístrate
@@ -66,7 +66,7 @@ const Autenticar = () => {
               <a
                 href="/index"
                 title=""
-                className="inline-flex min-w-fit justify-center items-center m-3 px-6 py-4 mt-8 font-semibold text-white transition-all duration-200 bg-blue-600 rounded-lg sm:mt-16 hover:bg-blue-700 focus:bg-blue-700"
+                className="inline-flex min-w-fit justify-center items-center m-3 px-6 py-4 mt-8 font-semibold text-white transition-all duration-200 bg-purple-500 rounded-lg sm:mt-16 hover:bg-purple-600 focus:bg-purple-600"
                 role="button"
               >
                 Entrar sin registrarte

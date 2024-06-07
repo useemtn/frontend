@@ -9,7 +9,7 @@ export async function removeFromFavoritos(producto_id) {
                 'Authorization': `Token ${localStorage.getItem('token')}`,
             },
         });
-        console.log("Producto añadido a favoritos");
+        console.log("Producto eliminado de favoritos");
         return response.data;
     } catch (error) {
         console.error(error);

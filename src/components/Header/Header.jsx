@@ -1,20 +1,25 @@
 import { AuthContext } from "../AuthContext/AuthContext";
 import "../../css/Header.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { getCarrito } from "../../logic/LogicCarrito.js";
-import { removeProduct } from "../../logic/LogicRemoveProducto.js";
+import { removeProductoCarrito } from "../../logic/LogicRemoveProductoCarrito.js";
 import { Link } from "react-router-dom";
 import { fetchCategorias } from "../../logic/LogicGetCategorias.js";
+import axios from "axios";
+import image from "../../assets/image_brand.webp";
 
 const Header = () => {
-  const { isAuthenticated, isNotAuthenticated } = useContext(AuthContext);
-  const { logout } = useContext(AuthContext);
+  const { isAuthenticated, logout } = useContext(AuthContext);
   const [carrito, setCarrito] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpenProfile, setIsDropdownOpenProfile] = useState(false);
   const [categorias, setCategorias] = useState([]);
-  const navigate = useNavigate(); // Hook for navigation
+  const [query, setQuery] = useState("");
+  const [total, setTotal] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     const obtenerCategorias = async () => {
       const categorias = await fetchCategorias();
@@ -24,60 +29,121 @@ const Header = () => {
     obtenerCategorias();
   }, []);
 
+  const calcularTotal = (carrito) => {
+    if (carrito && carrito.productos.length > 0) {
+      const total = carrito.productos.reduce(
+        (acc, producto) => acc + parseFloat(producto.id_producto.precio),
+        0
+      );
+      setTotal(total);
+    } else {
+      setTotal(0);
+    }
+  };
+
   const handleClick = async () => {
     const data = await getCarrito();
-    setIsDropdownOpen(!isDropdownOpen);
     setCarrito(data);
+    calcularTotal(data);
+    setIsDropdownOpen(!isDropdownOpen);
   };
+
   const handleClickProfile = () => {
     setIsDropdownOpenProfile(!isDropdownOpenProfile);
   };
+
   const handleRemove = async (id) => {
-    await removeProduct(id);
+    await removeProductoCarrito(id);
     const data = await getCarrito();
     setCarrito(data);
+    calcularTotal(data);
   };
+
+  const handleCategoryChange = (event) => {
+    const selectedCategory = event.target.value;
+    setQuery("");
+    navigate(`/productos?categoria=${selectedCategory}`);
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Token ${token}` }),
+        },
+      };
+
+      const response = await axios.get(
+        `http://127.0.0.1:8000/api/search/?search=${query}`,
+        config
+      );
+      navigate("/productos", { state: { results: response.data } });
+    } catch (error) {
+      console.error("Error al buscar productos:", error);
+    }
+  };
+
+  const isFavoritosPage = location.pathname === "/favoritos";
+  const isProfilePage = location.pathname === "/perfil";
+
   return (
-    <nav className="navbar bg-violet-200">
+    <div className="navbar sticky top-0 z-50 bg-purple-400">
       <div className="container mx-auto px-4 py-8 flex items-center">
-        <div className="mr-auto md:w-48 flex-shrink-0">
-          <a href="/index">
-            <img
-              className="h-8 md:h-10"
-              src="https://i.ibb.co/98pHdFq/2021-10-27-15h51-15.png"
-              alt="Logo"
-            />
-          </a>
+        <div className="mr-auto h-20 w-20 rounded-full flex-shrink-0">
+          <Link to="/index">
+            <img className="object-cover rounded-full" src={image} alt="Logo" />
+          </Link>
         </div>
 
-        <div className="w-full max-w-xs xl:max-w-lg 2xl:max-w-2xl bg-gray-100 rounded-md hidden xl:flex items-center">
-          <select className="bg-transparent uppercase font-bold text-sm p-4 mr-4">
-            <option>All Categories</option>
-            {categorias.map((categoria) => (
-              <option key={categoria}>{categoria}</option>
-            ))}
-          </select>
-          <input
-            className="border-l border-gray-300 bg-transparent font-semibold text-sm pl-4 flex-grow"
-            type="text"
-            placeholder="I'm searching for ..."
-          />
-          <svg
-            className="ml-auto h-5 px-4 text-gray-500"
-            aria-hidden="true"
-            focusable="false"
-            data-prefix="far"
-            data-icon="search"
-            role="img"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-          >
-            <path
-              fill="currentColor"
-              d="M508.5 468.9L387.1 347.5c-2.3-2.3-5.3-3.5-8.5-3.5h-13.2c31.5-36.5 50.6-84 50.6-136C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c52 0 99.5-19.1 136-50.6v13.2c0 3.2 1.3 6.2 3.5 8.5l121.4 121.4c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17zM208 368c-88.4 0-160-71.6-160-160S119.6 48 208 48s160 71.6 160 160-71.6 160-160 160z"
-            ></path>
-          </svg>
-        </div>
+        {!isFavoritosPage && !isProfilePage && (
+          <div className="w-full max-w-xs xl:max-w-lg 2xl:max-w-2xl bg-gray-100 rounded-md hidden xl:flex items-center">
+            <select
+              className="bg-transparent uppercase font-bold text-sm p-4 mr-4"
+              onChange={handleCategoryChange}
+              value={
+                location.search.includes("categoria")
+                  ? new URLSearchParams(location.search).get("categoria")
+                  : ""
+              }
+            >
+              <option value="">Todas las Categorías</option>
+              {categorias.map((categoria) => (
+                <option key={categoria} value={categoria}>
+                  {categoria}
+                </option>
+              ))}
+            </select>
+            <form onSubmit={handleSearch} className="flex items-center w-full">
+              <input
+                className="border-l p-4 text-base border-gray-300 bg-transparent font-semibold text-sm pl-4 flex-grow"
+                type="text"
+                placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+              <button type="submit" className="ml-auto px-4 text-gray-500">
+                <svg
+                  className="h-5"
+                  aria-hidden="true"
+                  focusable="false"
+                  data-prefix="far"
+                  data-icon="search"
+                  role="img"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M508.5 468.9L387.1 347.5c-2.3-2.3-5.3-3.5-8.5-3.5h-13.2c31.5-36.5 50.6-84 50.6-136C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c52 0 99.5-19.1 136-50.6v13.2c0 3.2 1.3 6.2 3.5 8.5l121.4 121.4c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17zM208 368c-88.4 0-160-71.6-160-160S119.6 48 208 48s160 71.6 160 160-71.6 160-160 160z"
+                  ></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        )}
 
         <div className="ml-auto md:w-48 hidden sm:flex flex-col items-end"></div>
 
@@ -109,7 +175,13 @@ const Header = () => {
                         to="/perfil"
                         className="boton-perfil w-full flex items-center cursor-pointer justify-center hover:bg-gray-200"
                       >
-                        Perfil
+                        Mi Perfil
+                      </Link>
+                      <Link
+                        to="/pedidos"
+                        className="boton-perfil w-full flex items-center cursor-pointer justify-center hover:bg-gray-200"
+                      >
+                        Mis Pedidos
                       </Link>
                       <div
                         className="boton-cerrar font-bold text-red-500 flex items-center cursor-pointer justify-center w-full hover:bg-gray-200"
@@ -118,13 +190,13 @@ const Header = () => {
                           navigate("/");
                         }}
                       >
-                        Cerrar Sesión
+                        Cerrar Sesion
                       </div>
                     </div>
                   )}
                 </li>
                 <li className="ml-2 lg:ml-4 relative inline-block">
-                  <a href="/favoritos">
+                  <Link to="/favoritos">
                     <svg
                       className="h-9 lg:h-10 p-2 text-black hover:scale-110"
                       aria-hidden="true"
@@ -140,7 +212,7 @@ const Header = () => {
                         d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"
                       ></path>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="ml-2 lg:ml-4 relative inline-block">
                   <a href="#" onClick={handleClick}>
@@ -161,7 +233,7 @@ const Header = () => {
                     </svg>
                   </a>
                   {isDropdownOpen && (
-                    <div className="dropdown-menu z-50 absolute bg-white text-base float-left py-2 list-none text-left">
+                    <div className="dropdown-menu absolute bg-white text-base float-left py-2 list-none text-left">
                       {carrito ? (
                         <>
                           {carrito.productos.map((producto, index) => (
@@ -174,7 +246,7 @@ const Header = () => {
                                 {producto.id_producto.nombre}{" "}
                               </div>
                               <div className="precio">
-                                {producto.id_producto.precio}€{" "}
+                                {producto.id_producto.precio} €{" "}
                               </div>
                               <div className="imagen h-20 w-20">
                                 <img
@@ -208,6 +280,17 @@ const Header = () => {
                             </a>
                           ))}
                           <br></br>
+                          <div className="total p-3">
+                            <strong>Total a pagar: {total} €</strong>
+                          </div>
+                          <div className="boton-checkout flex justify-center items-center h-auto m-4">
+                            <Link
+                              to="/checkout"
+                              className="block boton-comprar w-auto bg-purple-400 hover:bg-purple-600 p-4 text-sm font-medium transition hover:scale-105"
+                            >
+                              Realizar pago
+                            </Link>
+                          </div>
                         </>
                       ) : (
                         <p className="flex justify-center items-center h-auto w-auto">
@@ -218,23 +301,23 @@ const Header = () => {
                   )}
                 </li>
                 <li className="ml-2 lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-white font-bold text-purple-500 hover:scale-105">
-                  <a href="/vender">Vender</a>
+                  <Link to="/vender">Vender</Link>
                 </li>
               </>
             ) : (
               <>
                 <li className="ml-2 cursor-pointer lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-white font-bold text-purple-500 hover:scale-105">
-                  <a href="/login">Iniciar Sesión </a>
+                  <Link to="/login">Iniciar Sesión</Link>
                 </li>
                 <li className="ml-2 cursor-pointer lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-purple-500 font-bold text-white hover:scale-105">
-                  <a href="/register">Registrarse </a>
+                  <Link to="/register">Registrarse</Link>
                 </li>
               </>
             )}
           </ul>
         </nav>
       </div>
-    </nav>
+    </div>
   );
 };
 

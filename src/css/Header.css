@@ -63,6 +63,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 22px;
+    text-align: left;
+    place-content: center;
     margin: auto;
 }
 @media screen and (max-width: 1440px) {
@@ -75,17 +77,25 @@
     .dropdown-item {
       float: none;
     }
+
   }
   
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 425px) {
     .dropdown-menu {
-        width: 300px;
+        width: 400px;
         position: absolute;
         top: 50%;
         right: 50%;
+        transform: translate(35%, 20%);
     }
     .dropdown-item {
       float: none;
+    }
+    .dropdown-menu-perfil {
+      width: 200px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
     }
   }
   

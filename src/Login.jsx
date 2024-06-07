@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./components/AuthContext/AuthContext";
-const safeDocument = typeof document !== 'undefined' ? document : {};
+const safeDocument = typeof document !== "undefined" ? document : {};
 
 const Login = () => {
   useEffect(() => {
@@ -13,7 +13,7 @@ const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const html = safeDocument.documentElement;
-  html.style.overflow = 'hidden';
+  html.style.overflow = "hidden";
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -42,60 +42,47 @@ const Login = () => {
       alert("Error iniciando sesión");
     }
   };
+
   return (
-    <div className="font-sans">
-      <div className="relative min-h-screen flex flex-col justify-center items-center">
-        <div className="relative sm:max-w-sm w-full">
-          <div className="card bg-purple-400 shadow-lg  w-full h-full rounded-3xl absolute  transform -rotate-6"></div>
-          <div className="card bg-violet-500 shadow-lg  w-full h-full rounded-3xl absolute  transform rotate-6"></div>
-          <div className="relative w-full rounded-3xl  px-6 py-4 bg-gray-100 shadow-md">
-            <label className="block mt-3 text-sm text-gray-700 text-center font-semibold">
-              Iniciar Sesión
-            </label>
-            <form id="loginForm" className="mt-10">
-              <div>
-                <input
-                  type="text"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Nombre de usuario"
-                  className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-                />
-              </div>
-              <div className="mt-7">
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Contraseña"
-                  className="mt-1 p-1 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0"
-                />
-              </div>
-              <div className="mt-7">
-                <button
-                  type="button"
-                  onClick={handleLogin}
-                  className="bg-purple-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105"
-                >
-                  Iniciar Sesión
-                </button>
-              </div>
-              <div className="mt-7">
-                <div className="flex justify-center items-center">
-                  <label className="mr-2">¿No tienes una cuenta?</label>
-                  <a
-                    href="/register"
-                    className="text-blue-500 transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105"
-                  >
-                    Regístrate
-                  </a>
-                </div>
-              </div>
-            </form>
+    <div className="bg-gradient-to-b from-[#000000] to-[#9F4AFF] min-h-screen flex items-center justify-center">
+      <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl shadow-lg p-8 max-w-md w-full">
+        <h2 className="text-2xl font-semibold text-white text-center mb-6">
+          Iniciar Sesión
+        </h2>
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Nombre de usuario"
+              className="w-full p-3 rounded-lg bg-gray-800 bg-opacity-20 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+            />
           </div>
-        </div>
+          <div className="mb-6">
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Contraseña"
+              className="w-full p-3 rounded-lg bg-gray-800 bg-opacity-20 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 transition ease-in-out duration-150"
+          >
+            Iniciar Sesión
+          </button>
+        </form>
+        <p className="mt-6 text-center text-sm text-white">
+          ¿No tienes cuenta?{" "}
+          <a href="/register" className="font-semibold text-white hover:underline">
+            Regístrate
+          </a>
+        </p>
       </div>
     </div>
   );

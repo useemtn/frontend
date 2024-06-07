@@ -8,10 +8,13 @@ import MainLayout from "./components/Layout/Layout.jsx";
 import Productos from "./Productos.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import Favoritos from "./components/Favoritos/Favoritos.jsx";
+import Checkout from "./components/Checkout/Checkout.jsx";
 import Vender from "./components/Vender/Vender.jsx";
+import UserProfile from "./components/UserProfile/UserProfile.jsx"; // Importa el nuevo componente
 import { AuthProvider } from "./components/AuthContext/AuthContext.jsx";
 import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
+import Pedidos from "./components/Pedidos.jsx/Pedidos.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,9 +32,9 @@ const router = createBrowserRouter([
   {
     path: "/favoritos",
     element: (
-        <MainLayout>
-          <Favoritos />
-        </MainLayout>
+      <MainLayout>
+        <Favoritos />
+      </MainLayout>
     ),
   },
   {
@@ -44,11 +47,59 @@ const router = createBrowserRouter([
   },
   {
     path: "/perfil",
-    element: <MainLayout><Profile /></MainLayout>,
+    element: (
+      <MainLayout>
+        <Profile />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/pedidos",
+    element: (
+      <MainLayout>
+        <Pedidos />
+      </MainLayout>
+    ),
   },
   {
     path: "/vender",
-    element: <MainLayout><Vender /></MainLayout>,
+    element: (
+      <MainLayout>
+        <Vender />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/productos",
+    element: (
+      <MainLayout>
+        <Productos />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/checkout",
+    element: (
+      <MainLayout>
+        <Checkout />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/productos/:categoria",
+    element: (
+      <MainLayout>
+        <Productos />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/user/:userId", // Añade esta línea para la nueva ruta
+    element: (
+      <MainLayout>
+        <UserProfile />
+      </MainLayout>
+    ),
   },
 ]);
 
