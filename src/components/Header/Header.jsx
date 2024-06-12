@@ -1,4 +1,4 @@
-import { AuthContext } from "../AuthContext/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 import "../../css/Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState, useRef } from "react";

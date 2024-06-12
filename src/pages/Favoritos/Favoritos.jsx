@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../components/AuthContext";
+import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
 import { addToCart } from "../../logic/LogicProductos";
 import "../../css/Productos.css";

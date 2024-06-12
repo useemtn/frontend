@@ -6,7 +6,7 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import "../../css/Productos.css";
 import { FavoritosContext } from "../../Context/FavoritosContext";
-import { AuthContext } from "../../components/AuthContext"; // Importa el AuthContext
+import { AuthContext } from "../../Context/AuthContext"; // Importa el AuthContext
 
 const UserProfile = () => {
   const { userId } = useParams();
