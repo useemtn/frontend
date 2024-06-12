@@ -118,7 +118,7 @@ const Productos = () => {
                       <div key={index}>
                         <img
                           alt={producto.nombre}
-                          src={img.startsWith("http") ? img : `https://web-production-2e42.up.railway.app/${img}`}
+                          src={img.startsWith("http") ? img : `https://web-production-2e42.up.railway.app${img}`}
                           className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                         />
                       </div>
