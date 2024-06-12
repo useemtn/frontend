@@ -187,6 +187,7 @@ const Register = () => {
                             onChange={handleImageChange} 
                             placeholder="Imagen" 
                             className="w-full p-3 rounded-lg bg-gray-800 bg-opacity-20 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            required
                         />
                         {imagen && (
                             <div className="mt-4">
