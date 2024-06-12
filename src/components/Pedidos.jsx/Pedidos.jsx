@@ -12,7 +12,7 @@ const Pedidos = () => {
     document.title = "Mis pedidos";
     if (isAuthenticated) {
       axios
-        .get('http://127.0.0.1:8000/api/pedidos/get/', {
+        .get('https://web-production-2e42.up.railway.app/api/pedidos/get/', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Token ${localStorage.getItem('token')}`,

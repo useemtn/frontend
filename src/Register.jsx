@@ -76,7 +76,7 @@ const Register = () => {
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/register/', formData, {
+            const response = await axios.post('https://web-production-2e42.up.railway.app/api/register/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

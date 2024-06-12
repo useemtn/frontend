@@ -117,7 +117,7 @@ const Checkout = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/crear_pedido/",
+        "https://web-production-2e42.up.railway.app/api/crear_pedido/",
         payload,
         {
           headers: {
@@ -229,7 +229,7 @@ const Checkout = () => {
                 <div className="imagen h-20 w-20 my-2">
                   <img
                     src={
-                      "http://127.0.0.1:8000" + `${producto.id_producto.imagen}`
+                      "https://web-production-2e42.up.railway.app" + `${producto.id_producto.imagen}`
                     }
                     alt={producto.id_producto.nombre}
                     className="h-20 w-20 object-cover"

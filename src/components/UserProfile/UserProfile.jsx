@@ -19,7 +19,7 @@ const UserProfile = () => {
     const fetchProductos = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/productos/get/usuario/${userId}/`,
+          `https://web-production-2e42.up.railway.app/api/productos/get/usuario/${userId}/`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const UserProfile = () => {
     const fetchUsuario = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/usuarios/${userId}/`,
+          `https://web-production-2e42.up.railway.app/api/usuarios/${userId}/`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const UserProfile = () => {
         <div className="contenedor-perfil-img relative z-10 w-64 h-64 rounded-full overflow-hidden border-2 border-black">
           {usuario.imagen ? (
             <img
-              src={`http://127.0.0.1:8000${usuario.imagen}`}
+              src={`https://web-production-2e42.up.railway.app${usuario.imagen}`}
               alt="Imagen de perfil"
               className="w-full h-full z-0 object-cover"
             />
@@ -138,7 +138,7 @@ const UserProfile = () => {
                           <div key={index}>
                             <img
                               alt={producto.nombre}
-                              src={img.startsWith("http") ? img : `http://127.0.0.1:8000${img}`}
+                              src={img.startsWith("http") ? img : `https://web-production-2e42.up.railway.app${img}`}
                               className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                             />
                           </div>
@@ -147,7 +147,7 @@ const UserProfile = () => {
                     ) : (
                       <img
                         alt={producto.nombre}
-                        src={producto.imagen.startsWith("http") ? producto.imagen : `http://127.0.0.1:8000${producto.imagen}`}
+                        src={producto.imagen.startsWith("http") ? producto.imagen : `https://web-production-2e42.up.railway.app${producto.imagen}`}
                         className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                       />
                     )}
@@ -171,7 +171,7 @@ const UserProfile = () => {
                           producto.id_usuario.imagen
                             ? producto.id_usuario.imagen.startsWith("http")
                               ? producto.id_usuario.imagen
-                              : `http://127.0.0.1:8000${producto.id_usuario.imagen}`
+                              : `https://web-production-2e42.up.railway.app${producto.id_usuario.imagen}`
                             : ""
                         }
                         className="w-10 h-10 rounded-full mr-2 border-2 border-black"

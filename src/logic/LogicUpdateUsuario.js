@@ -11,7 +11,7 @@ export const updateUser = async (updateData) => {
     };
 
     const response = await axios.patch(
-      `http://127.0.0.1:8000/api/usuarios/update/`,
+      `https://web-production-2e42.up.railway.app/api/usuarios/update/`,
       updateData,
       config
     );

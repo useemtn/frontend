@@ -28,7 +28,7 @@ const Profile = () => {
     const fetchProductos = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/productos/get/usuario/",
+          "https://web-production-2e42.up.railway.app/api/productos/get/usuario/",
           {
             headers: {
               "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const Profile = () => {
     const fetchUsuarios = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/usuarios/",
+          "https://web-production-2e42.up.railway.app/api/usuarios/",
           {
             headers: {
               "Content-Type": "application/json",
@@ -219,7 +219,7 @@ const Profile = () => {
                               src={
                                 img.startsWith("http")
                                   ? img
-                                  : `http://127.0.0.1:8000${img}`
+                                  : `https://web-production-2e42.up.railway.app${img}`
                               }
                               className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                             />
@@ -232,7 +232,7 @@ const Profile = () => {
                         src={
                           producto.imagen.startsWith("http")
                             ? producto.imagen
-                            : `http://127.0.0.1:8000${producto.imagen}`
+                            : `https://web-production-2e42.up.railway.app${producto.imagen}`
                         }
                         className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                       />

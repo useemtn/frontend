@@ -20,7 +20,7 @@ const ProductosDialog = ({ pedido, isOpen, onClose }) => {
           {pedido.productos.map((producto) => (
             <div key={producto.id} className="mb-4">
               <img
-                src={`http://127.0.0.1:8000${producto.id_producto.imagen}`}
+                src={`https://web-production-2e42.up.railway.app${producto.id_producto.imagen}`}
                 alt={producto.id_producto.nombre}
                 className="w-full h-48 object-cover mb-2"
               />

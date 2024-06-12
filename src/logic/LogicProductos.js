@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 export async function addToCart(producto_id) {
-    const url = `http://127.0.0.1:8000/api/carrito/add/${producto_id}/`;
+    const url = `https://web-production-2e42.up.railway.app/api/carrito/add/${producto_id}/`;
   
     try {
       const response = await axios.post(url, {}, {

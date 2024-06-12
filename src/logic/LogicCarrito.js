@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function getCarrito() {
-    const url = "http://127.0.0.1:8000/api/carritos/get/";
+    const url = "https://web-production-2e42.up.railway.app/api/carritos/get/";
     try {
         const response = await axios.get(url, {
             headers: {

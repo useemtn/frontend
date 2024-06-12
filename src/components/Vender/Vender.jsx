@@ -40,7 +40,7 @@ const Vender = () => {
             });
         }
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/productos/add/', formData, {
+            const response = await axios.post('https://web-production-2e42.up.railway.app/api/productos/add/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Token ${localStorage.getItem('token')}`

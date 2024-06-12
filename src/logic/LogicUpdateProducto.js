@@ -3,7 +3,7 @@ import axios from 'axios';
 export const updateProduct = async (product_id, updateData) => {
   try {
     const response = await axios.patch(
-      `http://127.0.0.1:8000/api/productos/update/${product_id}/`,
+      `https://web-production-2e42.up.railway.app/api/productos/update/${product_id}/`,
       updateData,
       {
         headers: {

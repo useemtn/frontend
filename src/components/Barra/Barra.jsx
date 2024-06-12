@@ -9,7 +9,7 @@ const SearchBar = () => {
 
     const handleSearch = async (query) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/search/?search=${query}`);
+            const response = await axios.get(`https://web-production-2e42.up.railway.app/api/search/?search=${query}`);
             return response.data;
         } catch (error) {
             console.error('Error al buscar productos:', error);

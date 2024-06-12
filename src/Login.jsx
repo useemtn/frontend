@@ -25,7 +25,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/login/",
+        "https://web-production-2e42.up.railway.app/api/login/",
         formData,
         {
           headers: {

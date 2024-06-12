@@ -8,7 +8,7 @@ const getUserIdFromToken = async (token) => {
             },
         };
 
-        const res = await axios.get('http://127.0.0.1:8000/api/usuarios/', config);
+        const res = await axios.get('https://web-production-2e42.up.railway.app/api/usuarios/', config);
         return res.data.id;
     } catch (err) {
         console.error(err);
@@ -34,7 +34,7 @@ export const SubirProducto = async () => {
             },
         };
 
-        const res = await axios.post('http://127.0.0.1:8000/api/add/', formData, config);
+        const res = await axios.post('https://web-production-2e42.up.railway.app/api/add/', formData, config);
         return res.data;
     } catch (err) {
         console.error(err);

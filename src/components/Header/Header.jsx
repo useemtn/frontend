@@ -97,7 +97,7 @@ const Header = () => {
       };
 
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/search/?search=${query}`,
+        `https://web-production-2e42.up.railway.app/api/search/?search=${query}`,
         config
       );
       navigate("/productos", { state: { results: response.data } });
@@ -277,7 +277,7 @@ const Header = () => {
                               <div className="imagen h-20 w-20">
                                 <img
                                   src={
-                                    "http://127.0.0.1:8000" +
+                                    "https://web-production-2e42.up.railway.app" +
                                     `${producto.id_producto.imagen}`
                                   }
                                   alt={producto.id_producto.nombre}

@@ -30,7 +30,7 @@ const Productos = () => {
           : {};
 
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/productos/",
+          "https://web-production-2e42.up.railway.app/api/productos/",
           config
         );
         setProductos(response.data);
@@ -118,7 +118,7 @@ const Productos = () => {
                       <div key={index}>
                         <img
                           alt={producto.nombre}
-                          src={img.startsWith("http") ? img : `http://127.0.0.1:8000${img}`}
+                          src={img.startsWith("http") ? img : `https://web-production-2e42.up.railway.app/${img}`}
                           className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                         />
                       </div>
@@ -127,7 +127,7 @@ const Productos = () => {
                 ) : (
                   <img
                     alt={producto.nombre}
-                    src={producto.imagen.startsWith("http") ? producto.imagen : `http://127.0.0.1:8000${producto.imagen}`}
+                    src={producto.imagen.startsWith("http") ? producto.imagen : `https://web-production-2e42.up.railway.app/${producto.imagen}`}
                     className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                   />
                 )}
@@ -154,7 +154,7 @@ const Productos = () => {
                       producto.id_usuario.imagen
                         ? producto.id_usuario.imagen.startsWith("http")
                           ? producto.id_usuario.imagen
-                          : `http://127.0.0.1:8000${producto.id_usuario.imagen}`
+                          : `https://web-production-2e42.up.railway.app${producto.id_usuario.imagen}`
                         : ""
                     }
                     className="w-10 h-10 rounded-full mr-2 border-2 border-black"

@@ -10,7 +10,7 @@ export const removeUser = async () => {
       },
     };
     const response = await axios.delete(
-      `http://127.0.0.1:8000/api/usuarios/remove/`,
+      `https://web-production-2e42.up.railway.app/api/usuarios/remove/`,
       config
     );
     if (response.status === 204) {

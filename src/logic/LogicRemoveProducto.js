@@ -3,7 +3,7 @@ import axios from 'axios';
 export const removeProduct = async (product_id) => {
   try {
     const response = await axios.delete(
-      `http://127.0.0.1:8000/api/productos/remove/${product_id}/`,
+      `https://web-production-2e42.up.railway.app/api/productos/remove/${product_id}/`,
       {
         headers: {
           "Content-Type": "application/json",

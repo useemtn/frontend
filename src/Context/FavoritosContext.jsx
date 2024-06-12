@@ -18,7 +18,7 @@ export const FavoritosProvider = ({ children }) => {
       const fetchFavoritos = async () => {
         try {
           const token = localStorage.getItem("token");
-          const response = await axios.get("http://127.0.0.1:8000/api/favoritos/get/", {
+          const response = await axios.get("https://web-production-2e42.up.railway.app/api/favoritos/get/", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Token ${token}`,
