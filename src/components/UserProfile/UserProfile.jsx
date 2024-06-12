@@ -192,7 +192,7 @@ const UserProfile = () => {
                           className="block boton-comprar bg-purple-400 p-4 text-sm font-medium transition"
                           onClick={(event) => handleAddToCart(event, producto.id)}
                         >
-                          Add to Cart
+                          Añadir al carrito
                         </button>
                       </form>
                     </div>
