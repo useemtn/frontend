@@ -14,7 +14,7 @@ import UserProfile from "./pages/UserProfile/UserProfile.jsx"; // Importa el nue
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
-import Pedidos from "./components/Pedidos.jsx/Pedidos.jsx";
+import Pedidos from "./pages/Pedidos/Pedidos.jsx";
 
 const router = createBrowserRouter([
   {
