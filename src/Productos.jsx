@@ -127,7 +127,7 @@ const Productos = () => {
                 ) : (
                   <img
                     alt={producto.nombre}
-                    src={producto.imagen.startsWith("http") ? producto.imagen : `https://web-production-2e42.up.railway.app/${producto.imagen}`}
+                    src={producto.imagen.startsWith("http") ? producto.imagen : `https://web-production-2e42.up.railway.app${producto.imagen}`}
                     className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                   />
                 )}
