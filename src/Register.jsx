@@ -32,7 +32,7 @@ const Register = () => {
         var re = {
             capital: /(?=.*[A-Z])/,
             length: /(?=.{8,})/,
-            specialChar: /(?=.*[@$!%.*?&])/,
+            specialChar: /(?=.*[@$!%.*?-_&])/,
             digit: /(?=.*[0-9])/,
         };
         return (
