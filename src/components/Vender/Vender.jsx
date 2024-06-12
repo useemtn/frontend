@@ -20,8 +20,11 @@ const Vender = () => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        if (showMoreImages && moreImages.length > 0 && moreImages.length !== 4) {
-            toast.error("Debes añadir exactamente 4 imágenes adicionales o ninguna.");
+
+        if (showMoreImages && moreImages.length > 4) {
+            toast.error("No puedes añadir más de 4 imágenes adicionales. El producto se subirá solo con una imagen.");
+            setShowMoreImages(false);
+            setMoreImages([]); // Clear additional images
             return;
         }
 
@@ -34,7 +37,7 @@ const Vender = () => {
         if (imagen) {
             formData.append('imagen', imagen);
         }
-        if (showMoreImages && moreImages.length === 4) {
+        if (showMoreImages) {
             moreImages.forEach((img, index) => {
                 formData.append(`imagen${index + 2}`, img);
             });
