@@ -20,8 +20,8 @@ const Vender = () => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        if (showMoreImages && moreImages.length !== 0 && moreImages.length !== 4) {
-            toast.error("Debes añadir exactamente 4 imágenes adicionales.");
+        if (showMoreImages && moreImages.length > 0 && moreImages.length !== 4) {
+            toast.error("Debes añadir exactamente 4 imágenes adicionales o ninguna.");
             return;
         }
 
