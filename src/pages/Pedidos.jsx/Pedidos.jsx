@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { AuthContext } from '../../components/AuthContext/AuthContext';
+import { AuthContext } from '../../components/AuthContext';
 import axios from 'axios';
-import ProductosDialog from '../ProductosDialog/ProductosDialoag';
+import ProductosDialog from '../../components/ProductosDialog/ProductosDialoag';
 import 'tailwindcss/tailwind.css';
 
 const Pedidos = () => {

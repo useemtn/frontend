@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../components/AuthContext/AuthContext';
+import { AuthContext } from '../components/AuthContext';
 import { addToFavoritos } from '../logic/LogicAddFavoritos';
 import { removeFromFavoritos } from '../logic/LogicRemoveFavorito';
 

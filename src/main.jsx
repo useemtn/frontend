@@ -6,12 +6,12 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import MainLayout from "./components/Layout/Layout.jsx";
 import Productos from "./Productos.jsx";
-import Profile from "./components/Profile/Profile.jsx";
-import Favoritos from "./components/Favoritos/Favoritos.jsx";
-import Checkout from "./components/Checkout/Checkout.jsx";
-import Vender from "./components/Vender/Vender.jsx";
-import UserProfile from "./components/UserProfile/UserProfile.jsx"; // Importa el nuevo componente
-import { AuthProvider } from "./components/AuthContext/AuthContext.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import Favoritos from "./pages/Favoritos/Favoritos.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import Vender from "./pages/Vender/Vender.jsx";
+import UserProfile from "./pages/UserProfile/UserProfile.jsx"; // Importa el nuevo componente
+import { AuthProvider } from "./Context/AuthContext.jsx";
 import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
 import Pedidos from "./components/Pedidos.jsx/Pedidos.jsx";

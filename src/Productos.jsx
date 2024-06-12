@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { AuthContext } from "./components/AuthContext/AuthContext";
+import { AuthContext } from "./Context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { addToCart } from "./logic/LogicProductos";

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./components/AuthContext/AuthContext";
+import { AuthContext } from "./Context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
 const safeDocument = typeof document !== "undefined" ? document : {};
 
