@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./components/AuthContext/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
 const safeDocument = typeof document !== "undefined" ? document : {};
 
 const Login = () => {
@@ -35,11 +36,18 @@ const Login = () => {
 
       console.log(response.data);
       login(response.data.token);
-      alert("Inicio de sesión exitoso");
-      navigate("/index"); // Navigate to index page after successful login
+      window.location.href = "/index"; // Navigate to index page after successful login
     } catch (error) {
-      console.error("Error iniciando sesión:", error.response.data);
-      alert("Error iniciando sesión");
+      console.error("Error iniciando sesión:", error.response?.data || error.message);
+      if (error.response && error.response.data) {
+        if (error.response.data.non_field_errors) {
+          toast.error("Credenciales inválidas. Por favor, inténtalo de nuevo.");
+        } else {
+          toast.error("Error iniciando sesión. Por favor, verifica tus datos.");
+        }
+      } else {
+        toast.error("Error iniciando sesión. Por favor, inténtalo de nuevo más tarde.");
+      }
     }
   };
 
@@ -58,6 +66,7 @@ const Login = () => {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Nombre de usuario"
               className="w-full p-3 rounded-lg bg-gray-800 bg-opacity-20 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              required
             />
           </div>
           <div className="mb-6">
@@ -66,8 +75,9 @@ const Login = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Contraseña"
+              placeholder="Contraseña"
               className="w-full p-3 rounded-lg bg-gray-800 bg-opacity-20 text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              required
             />
           </div>
           <button
@@ -79,11 +89,20 @@ const Login = () => {
         </form>
         <p className="mt-6 text-center text-sm text-white">
           ¿No tienes cuenta?{" "}
-          <a href="/register" className="font-semibold text-white hover:underline">
+          <a
+            href="/register"
+            className="font-semibold text-white hover:underline"
+          >
             Regístrate
           </a>
         </p>
+        <p className="mt-6 text-center text-sm text-white">
+          <a href="/" className="text-white font-semibold hover:underline">
+            Volver al inicio
+          </a>
+        </p>
       </div>
+      <Toaster />
     </div>
   );
 };

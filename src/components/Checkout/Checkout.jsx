@@ -3,6 +3,8 @@ import { getCarrito } from "../../logic/LogicCarrito";
 import { removeProductoCarrito } from "../../logic/LogicRemoveProductoCarrito";
 import "../../css/Checkout.css";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
+import sha256 from 'crypto-js/sha256';
 
 const Checkout = () => {
   const [carrito, setCarrito] = useState(null);
@@ -18,6 +20,7 @@ const Checkout = () => {
   });
 
   useEffect(() => {
+    document.title = "Checkout";
     const obtenerCarrito = async () => {
       const carrito = await getCarrito();
       setCarrito(carrito);
@@ -53,8 +56,38 @@ const Checkout = () => {
     });
   };
 
+  const handleCardNumberChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
+    if (value.length > 16) {
+      value = value.slice(0, 16); // Limit to 16 digits
+    }
+    // Add space after every 4 digits
+    const formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    setForm({
+      ...form,
+      num_tarjeta: formattedValue,
+    });
+  };
+
+  const handleCVCChange = (e) => {
+    let value = e.target.value.replace(/\D/g, ''); // Remove all non-digit characters
+    if (value.length > 3) {
+      value = value.slice(0, 3); // Limit to 3 digits
+    }
+    setForm({
+      ...form,
+      cvc: value,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Verificar que el carrito no esté vacío
+    if (!carrito || carrito.productos.length === 0) {
+      toast.error('El carrito está vacío. No se puede realizar el pedido.');
+      return;
+    }
 
     let payload = {
       direccion: form.direccion,
@@ -63,12 +96,22 @@ const Checkout = () => {
     };
 
     if (form.tipo_pago === "tarjeta") {
+      // Verificar que los campos de tarjeta no estén vacíos
+      if (!form.nombre_tarjeta || !form.num_tarjeta || !form.fecha_vencimiento || !form.cvc) {
+        toast.error('Todos los campos de la tarjeta son requeridos.');
+        return;
+      }
+
+      // Hashear la información sensible y truncar los hashes
+      const hashed_num_tarjeta = sha256(form.num_tarjeta.replace(/\s/g, '')).toString().substring(0, 16); // Remove spaces before hashing
+      const hashed_cvc = sha256(form.cvc).toString().substring(0, 3);
+
       payload = {
         ...payload,
         nombre_tarjeta: form.nombre_tarjeta,
-        num_tarjeta: form.num_tarjeta,
+        num_tarjeta: hashed_num_tarjeta,
         fecha_vencimiento: form.fecha_vencimiento,
-        cvc: form.cvc,
+        cvc: hashed_cvc,
       };
     }
 
@@ -83,14 +126,22 @@ const Checkout = () => {
           },
         }
       );
-      alert("Pedido realizado con éxito");
-      console.log(payload);
+      toast.success('Pedido realizado con éxito'); // Notificación de éxito
       const carrito = await getCarrito();
       setCarrito(carrito);
       setTotal(0);
+      setForm({
+        direccion: "",
+        direccion_facturacion: "",
+        tipo_pago: "tarjeta",
+        nombre_tarjeta: "",
+        num_tarjeta: "",
+        fecha_vencimiento: "",
+        cvc: "",
+      }); // Resetear el formulario después de un pedido exitoso
     } catch (error) {
-      console.error(error);
-      alert("Error al realizar el pedido");
+      console.error('Error al realizar el pedido:', error.response.data);
+      toast.error(`Error al realizar el pedido: ${error.response.data}`);
     }
   };
 
@@ -124,8 +175,9 @@ const Checkout = () => {
               name="num_tarjeta"
               type="text"
               value={form.num_tarjeta}
-              onChange={handleChange}
+              onChange={handleCardNumberChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              maxLength="19" // 16 digits + 3 spaces
             />
           </div>
           <div className="mb-4">
@@ -154,8 +206,9 @@ const Checkout = () => {
               name="cvc"
               type="text"
               value={form.cvc}
-              onChange={handleChange}
+              onChange={handleCVCChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              maxLength="3" // Limit to 3 digits
             />
           </div>
         </>
@@ -202,7 +255,7 @@ const Checkout = () => {
               </div>
             ))}
             <div className="total p-3">
-              <strong>Total a pagar: {total.toFixed(2)} €</strong>
+              <strong>Total a pagar: <span className="text-purple-500">{total.toFixed(2)}</span> €</strong>
             </div>
           </>
         ) : (
@@ -211,7 +264,7 @@ const Checkout = () => {
           </p>
         )}
       </div>
-      <div className="formulario-checkout m-4 p-4 border-2 border-black rounded-xl  overflow-auto">
+      <div className="formulario-checkout m-4 p-4 border-2 border-black rounded-xl overflow-auto">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
@@ -267,12 +320,13 @@ const Checkout = () => {
           {renderPaymentFields()}
           <button
             type="submit"
-            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:scale-105 transition"
           >
             Realizar Pago
           </button>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 };

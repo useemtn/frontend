@@ -145,7 +145,7 @@ const ProductosFavoritos = () => {
                       className="block boton-comprar w-full bg-purple-400 p-4 text-sm font-medium transition"
                       onClick={() => addToCart(producto.id_producto.id)}
                     >
-                      Add to Cart
+                      Añadir al carrito
                     </button>
                   </form>
                 </div>

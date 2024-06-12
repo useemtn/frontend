@@ -185,7 +185,7 @@ const Profile = () => {
           </button>
         </div>
       </div>
-      <div className="contenedor-productos">
+      <div className="contenedor-productos mt-16">
         {productos.length > 0
           ? productos.map((producto) => {
               const imagenes = [

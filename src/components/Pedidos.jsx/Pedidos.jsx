@@ -9,6 +9,7 @@ const Pedidos = () => {
   const [selectedPedido, setSelectedPedido] = useState(null);
   const { isAuthenticated } = useContext(AuthContext);
   useEffect(() => {
+    document.title = "Mis pedidos";
     if (isAuthenticated) {
       axios
         .get('http://127.0.0.1:8000/api/pedidos/get/', {
@@ -50,7 +51,7 @@ const Pedidos = () => {
               </div>
               <button
                 onClick={() => openDialog(pedido)}
-                className="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700 hover:scale-105 transition"
+                className="bg-purple-500 h-16 text-white py-2 px-4 rounded hover:bg-purple-700 hover:scale-105 transition"
               >
                 Ver productos
               </button>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Vender = () => {
     useEffect(() => {
@@ -19,6 +20,11 @@ const Vender = () => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
+        if (showMoreImages && moreImages.length !== 4) {
+            toast.error("Debes añadir exactamente 4 imágenes adicionales.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append('nombre', nombre);
         formData.append('descripcion', descripcion);
@@ -28,9 +34,11 @@ const Vender = () => {
         if (imagen) {
             formData.append('imagen', imagen);
         }
-        moreImages.forEach((img, index) => {
-            formData.append(`imagen${index + 2}`, img);
-        });
+        if (showMoreImages) {
+            moreImages.forEach((img, index) => {
+                formData.append(`imagen${index + 2}`, img);
+            });
+        }
         try {
             const response = await axios.post('http://127.0.0.1:8000/api/productos/add/', formData, {
                 headers: {
@@ -39,19 +47,28 @@ const Vender = () => {
                 },
             });
             console.log(response.data);
+            toast.success('Producto subido con éxito!'); // Notificación de éxito
             navigate('/index');
         } catch (error) {
             if (error.response && error.response.data) {
                 console.error('Error registrando producto:', error.response.data);
+                toast.error('Error al subir el producto.');
             } else {
                 console.error('Error registrando producto:', error.message);
+                toast.error('Error al subir el producto.');
             }
         }
     };
 
     const handleMoreImages = (event) => {
-        const selectedFiles = Array.from(event.target.files).slice(0, 4 - moreImages.length);
-        setMoreImages([...moreImages, ...selectedFiles]);
+        const selectedFiles = Array.from(event.target.files);
+        if (moreImages.length + selectedFiles.length > 4) {
+            toast.error("No puedes añadir más de 4 imágenes adicionales. El producto se subirá solo con una imagen.");
+            setShowMoreImages(false);
+            setMoreImages([]); // Clear additional images
+        } else {
+            setMoreImages([...moreImages, ...selectedFiles.slice(0, 4 - moreImages.length)]);
+        }
     };
 
     const handleRemoveImage = (index) => {
@@ -62,7 +79,7 @@ const Vender = () => {
     return (
         <div className="font-sans body-register">
             <div className="relative m-auto min-h-full flex flex-col justify-center items-center">
-                <div className="relative sm:max-w-xl w-full px-4 md:px-0 mb-20"> {/* Añadí mb-20 para dar espacio al footer */}
+                <div className="relative sm:max-w-xl w-full px-4 md:px-0 mb-20">
                     <div className="card bg-purple-400 shadow-lg w-full h-full rounded-3xl absolute transform -rotate-6"></div>
                     <div className="card bg-violet-500 shadow-lg w-full h-full rounded-3xl absolute transform rotate-6"></div>
                     <div className="relative w-full rounded-3xl px-6 py-8 bg-gray-100 shadow-md">
@@ -107,7 +124,7 @@ const Vender = () => {
                             <div className="col-span-1 md:col-span-2">
                                 <label className="block text-sm text-gray-700 font-semibold">¿Quieres añadir más imágenes?</label>
                                 <div className="flex items-center mt-2">
-                                    <input type="checkbox" id="addMoreImages" onChange={() => setShowMoreImages(!showMoreImages)} className="mr-2" />
+                                    <input type="checkbox" id="addMoreImages" checked={showMoreImages} onChange={() => setShowMoreImages(!showMoreImages)} className="mr-2" />
                                     <label htmlFor="addMoreImages" className="text-sm text-gray-700">Sí</label>
                                 </div>
                             </div>
@@ -130,6 +147,7 @@ const Vender = () => {
                                 </button>
                             </div>
                         </form>
+                        <Toaster />
                     </div>
                 </div>
             </div>

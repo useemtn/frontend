@@ -1,7 +1,7 @@
 import { AuthContext } from "../AuthContext/AuthContext";
 import "../../css/Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { getCarrito } from "../../logic/LogicCarrito.js";
 import { removeProductoCarrito } from "../../logic/LogicRemoveProductoCarrito.js";
 import { Link } from "react-router-dom";
@@ -19,6 +19,8 @@ const Header = () => {
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
+  const menuRef = useRef(null);
+  const profileRef = useRef(null);
 
   useEffect(() => {
     const obtenerCategorias = async () => {
@@ -27,6 +29,22 @@ const Header = () => {
     };
 
     obtenerCategorias();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsDropdownOpenProfile(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const calcularTotal = (carrito) => {
@@ -46,10 +64,12 @@ const Header = () => {
     setCarrito(data);
     calcularTotal(data);
     setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpenProfile(false); // Close profile dropdown if it's open
   };
 
   const handleClickProfile = () => {
     setIsDropdownOpenProfile(!isDropdownOpenProfile);
+    setIsDropdownOpen(false); // Close cart dropdown if it's open
   };
 
   const handleRemove = async (id) => {
@@ -120,7 +140,7 @@ const Header = () => {
               <input
                 className="border-l p-4 text-base border-gray-300 bg-transparent font-semibold text-sm pl-4 flex-grow"
                 type="text"
-                placeholder="Search..."
+                placeholder="Buscar..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -151,7 +171,10 @@ const Header = () => {
           <ul className="ml-4 xl:w-auto flex items-center justify-end">
             {isAuthenticated ? (
               <>
-                <li className="ml-2 lg:ml-4 relative inline-block hover:">
+                <li
+                  className="ml-2 lg:ml-4 relative inline-block"
+                  ref={profileRef}
+                >
                   <a href="#" onClick={handleClickProfile}>
                     <svg
                       className="h-9 lg:h-10 p-2 text-black hover:scale-110"
@@ -214,7 +237,10 @@ const Header = () => {
                     </svg>
                   </Link>
                 </li>
-                <li className="ml-2 lg:ml-4 relative inline-block">
+                <li
+                  className="ml-2 lg:ml-4 relative inline-block"
+                  ref={menuRef}
+                >
                   <a href="#" onClick={handleClick}>
                     <svg
                       className="h-9 lg:h-10 p-2 text-black hover:scale-110"
@@ -245,7 +271,7 @@ const Header = () => {
                               <div className="nombre">
                                 {producto.id_producto.nombre}{" "}
                               </div>
-                              <div className="precio">
+                              <div className="precio text-purple-500">
                                 {producto.id_producto.precio} €{" "}
                               </div>
                               <div className="imagen h-20 w-20">
@@ -281,7 +307,7 @@ const Header = () => {
                           ))}
                           <br></br>
                           <div className="total p-3">
-                            <strong>Total a pagar: {total} €</strong>
+                            <strong>Total a pagar: {total.toFixed(2)} €</strong>
                           </div>
                           <div className="boton-checkout flex justify-center items-center h-auto m-4">
                             <Link
