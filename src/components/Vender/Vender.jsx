@@ -20,7 +20,7 @@ const Vender = () => {
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        if (showMoreImages && moreImages.length !== 4) {
+        if (showMoreImages && moreImages.length !== 0 && moreImages.length !== 4) {
             toast.error("Debes añadir exactamente 4 imágenes adicionales.");
             return;
         }
@@ -34,7 +34,7 @@ const Vender = () => {
         if (imagen) {
             formData.append('imagen', imagen);
         }
-        if (showMoreImages) {
+        if (showMoreImages && moreImages.length === 4) {
             moreImages.forEach((img, index) => {
                 formData.append(`imagen${index + 2}`, img);
             });
