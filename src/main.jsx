@@ -11,10 +11,10 @@ import Favoritos from "./pages/Favoritos/Favoritos.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import Vender from "./pages/Vender/Vender.jsx";
 import UserProfile from "./pages/UserProfile/UserProfile.jsx"; // Importa el nuevo componente
+import Pedidos from "./pages/Pedidos/Pedidos.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
-import Pedidos from "./pages/Pedidos/Pedidos.jsx";
 
 const router = createBrowserRouter([
   {
