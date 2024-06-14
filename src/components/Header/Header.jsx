@@ -108,6 +108,10 @@ const Header = () => {
 
   const isFavoritosPage = location.pathname === "/favoritos";
   const isProfilePage = location.pathname === "/perfil";
+  const handleCheckout = () => {
+    setIsDropdownOpen(false); // Cierra el menú del carrito
+    navigate("/checkout");    // Redirige al checkout (si es necesario)
+  };
 
   return (
     <div className="navbar sticky top-0 z-50 bg-purple-400">
@@ -313,6 +317,7 @@ const Header = () => {
                             <Link
                               to="/checkout"
                               className="block boton-comprar w-auto bg-purple-400 hover:bg-purple-600 p-4 text-sm font-medium transition hover:scale-105"
+                              onClick={handleCheckout}
                             >
                               Realizar pago
                             </Link>
