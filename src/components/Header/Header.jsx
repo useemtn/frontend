@@ -278,14 +278,14 @@ const Header = () => {
                               <div className="precio text-purple-500">
                                 {producto.id_producto.precio} €{" "}
                               </div>
-                              <div className="imagen h-20 w-20">
+                              <div className="imagen h-20 w-18">
                                 <img
                                   src={
                                     "https://web-production-2e42.up.railway.app" +
                                     `${producto.id_producto.imagen}`
                                   }
                                   alt={producto.id_producto.nombre}
-                                  className="h-20 w-20"
+                                  className="h-20 w-18"	
                                 />
                               </div>
                               <div
