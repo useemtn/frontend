@@ -1,8 +1,9 @@
+// Importar los componentes necesarios
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from "./Context/AuthContext";
-import { useNavigate } from 'react-router-dom'; // Import for navigation
-import toast, { Toaster } from 'react-hot-toast'; // Import toast for notifications
+import { AuthContext } from "./Context/AuthContext"; // Importar el contexto de autenticación
+import { useNavigate } from 'react-router-dom'; 
+import toast, { Toaster } from 'react-hot-toast'; // Importar la librería de notificación
 const safeDocument = typeof document !== 'undefined' ? document : {};
 
 const Register = () => {
@@ -10,6 +11,7 @@ const Register = () => {
         document.title = "Register";
     }, []);
     
+    // Definir los estados correspondientes
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,23 +20,26 @@ const Register = () => {
     const [direccion, setDireccion] = useState('');
     const [imagen, setImagen] = useState(null);
     const [showPassword, setShowPassword] = useState(false);
-    const { login } = useContext(AuthContext);
+    const { login } = useContext(AuthContext); // Obtiene el estado de autenticación
     const html = safeDocument.documentElement;
     html.style.overflow = 'hidden';
     const navigate = useNavigate();
 
     const username_validate = (username) => {
-        const usernameRegex = /^\S+$/; // No spaces allowed
+        const usernameRegex = /^\S+$/; // No espacios
         return usernameRegex.test(username);
     };
 
+    // Función para validar la contraseña
     const password_validate = (password) => {
+        // Al menos una mayúscula, una minúscula, un número y un caracter especial
         var re = {
             capital: /(?=.*[A-Z])/,
             length: /(?=.{8,})/,
             specialChar: /(?=.*[@$!%.*?-_&])/,
             digit: /(?=.*[0-9])/,
         };
+        // Validar la contraseña
         return (
             re.capital.test(password) &&
             re.length.test(password) &&
@@ -44,14 +49,15 @@ const Register = () => {
     };
 
     const handleRegister = async (event) => {
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
 
         if (!username_validate(username)) {
+            // Si el nombre de usuario no es valido mostrar un mensaje de error
             toast.error('El nombre de usuario no debe contener espacios.');
             return;
         }
 
-        // Create a new FormData object for multipart/form-data submission
+        // Crear un objeto FormData con los datos del formulario
         const formData = new FormData();
         formData.append('username', username);
         formData.append('email', email);
@@ -59,40 +65,49 @@ const Register = () => {
         formData.append('confirm_password', confirmPassword);
         formData.append('direccion', direccion);
 
-        // Check if passwords match
+        // Comprobar si las contraseñas coinciden
         if (password !== confirmPassword) {
-            setPasswordError('Las contraseñas no coinciden'); // Set the error message
-            return; // Exit early if passwords don't match
-        } else if (!password_validate(password)) {
+            setPasswordError('Las contraseñas no coinciden'); // Mostrar un mensaje de error
+            return; // Salir de la función
+        } else if (!password_validate(password)) { // Validar la contraseña
             setPasswordError('La contraseña debe tener mínimo 8 caracteres, 1 letra mayúscula, 1 signo y 1 número');
             return;
         } else {
-            setPasswordError(''); // Clear the error message if passwords match
+            setPasswordError(''); // Limpiar el mensaje de error si hay uno
         }
 
-        // Handle image upload (if applicable)
+        // Manejar la imagen si hay una
         if (imagen) {
             formData.append('imagen', imagen);
         }
 
         try {
+            // Llamar a la API para registrar el usuario
             const response = await axios.post('https://web-production-2e42.up.railway.app/api/register/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+
+            // Mostrar un mensaje de éxito
             console.log(response.data);
             login(response.data.token);
+
+            // Redirigir a la página de inicio
             toast.success('Registro exitoso');
-            window.location.href = '/index'; // Navigate to index page after successful login
+            window.location.href = '/index'; // NRedirecionar a la página de inicio
         } catch (error) {
+            // Mostrar un mensaje de error para las siguientes situaciones
             console.error('Error registrando usuario:', error.response ? error.response.data : error.message);
             if (error.response) {
                 if (error.response.data.username) {
+                    // Si el nombre de usuario ya existe mostrar un mensaje de error
                     toast.error('El nombre de usuario ya está en uso.');
                 } else if (error.response.data.email) {
+                    // Si el correo electrónico ya existe mostrar un mensaje de error
                     toast.error('El correo electrónico ya está en uso.');
                 } else {
+                    // Si hay otro tipo de error mostrar un mensaje de error
                     toast.error('Error registrando usuario: ' + error.response.data.detail);
                 }
             } else {
@@ -101,20 +116,24 @@ const Register = () => {
         }
     };
 
+    // Manejar el cambio de imagen
     const handleImageChange = (e) => {
         setImagen(e.target.files[0]);
     };
 
+    // Manejar el ver u ocultar de contraseña
     const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
+        setShowPassword(!showPassword); // Cambia el estado de 'showPassword'
     };
 
     return (
         <div className="bg-gradient-to-b from-[#9F4AFF] to-[#000000] min-h-screen flex items-center justify-center">
             <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl shadow-lg p-8 max-w-md w-full">
                 <h2 className="text-2xl font-semibold text-white text-center mb-6">Crear cuenta</h2>
+                {/* Manejar el envío del formulario */}
                 <form onSubmit={handleRegister}>
                     <div className="mb-4">
+                        {/* Establecer el nombre de usuario */}
                         <input 
                             type="text" 
                             id="username" 
@@ -126,6 +145,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="mb-4">
+                        {/* Establecer el correo electrónico */}
                         <input 
                             type="email" 
                             id="email" 
@@ -137,6 +157,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="mb-4">
+                        {/* Establecer la contraseña */}
                         <input 
                             type={showPassword ? "text" : "password"} 
                             id="password" 
@@ -148,6 +169,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="mb-4">
+                        {/* Establecer la confirmación de la contraseña */}
                         <input 
                             type={showPassword ? "text" : "password"} 
                             id="confirm_password" 
@@ -158,8 +180,9 @@ const Register = () => {
                             required 
                         />
                     </div>
-                    {passwordError && <p className='text-red-500'>{passwordError}</p>} {/* Show the error message if there is one */}
+                    {passwordError && <p className='text-red-500'>{passwordError}</p>} {/* Mostrar el error de la contraseña */}
                     <div className="flex items-center mb-4">
+                        {/* Establecer el ver u ocultar de la contraseña */}
                         <input 
                             type="checkbox" 
                             id="show_password" 
@@ -170,6 +193,7 @@ const Register = () => {
                         <label htmlFor="show_password" className="text-white">Mostrar Contraseña</label>
                     </div>
                     <div className="mb-4">
+                        {/* Establecer la dirección */}
                         <input 
                             type="text" 
                             id="direccion" 
@@ -181,6 +205,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="mb-6">
+                        {/* Manejar la imagen */}
                         <input 
                             type="file" 
                             id="imagen" 

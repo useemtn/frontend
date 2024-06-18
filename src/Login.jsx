@@ -1,29 +1,34 @@
+// Importar los componentes necesarios
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./Context/AuthContext";
+import { AuthContext } from "./Context/AuthContext"; // Importar el contexto de autenticación
 import toast, { Toaster } from "react-hot-toast";
 const safeDocument = typeof document !== "undefined" ? document : {};
 
+// Función para iniciar sesión
 const Login = () => {
   useEffect(() => {
     document.title = "Login";
   }, []);
+  // Establecer valores por defecto
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useContext(AuthContext);
+  const { login } = useContext(AuthContext); // Obtener el contexto de autenticación
   const navigate = useNavigate();
   const html = safeDocument.documentElement;
   html.style.overflow = "hidden";
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); // Previene la recarga de la página
 
+    // Agregar los datos del formulario al objeto FormData
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
 
     try {
+      // Llamar a la API para iniciar sesión
       const response = await axios.post(
         "https://web-production-2e42.up.railway.app/api/login/",
         formData,
@@ -35,18 +40,20 @@ const Login = () => {
       );
 
       console.log(response.data);
+
+      // Guardar el token de inicio de sesión
       login(response.data.token);
-      window.location.href = "/index"; // Navigate to index page after successful login
+      window.location.href = "/index"; // Redireccionar a la página principal
     } catch (error) {
       console.error("Error iniciando sesión:", error.response?.data || error.message);
       if (error.response && error.response.data) {
         if (error.response.data.non_field_errors) {
-          toast.error("Credenciales inválidas. Por favor, inténtalo de nuevo.");
+          toast.error("Credenciales inválidas. Por favor, inténtalo de nuevo."); // Error de credenciales inválidas
         } else {
-          toast.error("Error iniciando sesión. Por favor, verifica tus datos.");
+          toast.error("Error iniciando sesión. Por favor, verifica tus datos."); // Error de inicio de sesión
         }
       } else {
-        toast.error("Error iniciando sesión. Por favor, inténtalo de nuevo más tarde.");
+        toast.error("Error iniciando sesión. Por favor, inténtalo de nuevo más tarde."); // Error de inicio de sesión
       }
     }
   };
@@ -57,8 +64,10 @@ const Login = () => {
         <h2 className="text-2xl font-semibold text-white text-center mb-6">
           Iniciar Sesión
         </h2>
+        {/* Manejador de formulario */}
         <form onSubmit={handleLogin}>
           <div className="mb-4">
+            {/* Establecer el valor del campo de nombre de usuario */}
             <input
               type="text"
               id="username"
@@ -69,6 +78,7 @@ const Login = () => {
               required
             />
           </div>
+          {/* Establecer el valor del campo de contraseña */}
           <div className="mb-6">
             <input
               type="password"

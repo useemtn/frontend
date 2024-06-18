@@ -1,3 +1,4 @@
+// Importar los componentes necesarios
 import { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { addToCart } from "../../logic/LogicProductos";
@@ -8,17 +9,20 @@ import "../../css/Productos.css";
 import { FavoritosContext } from "../../Context/FavoritosContext";
 import { AuthContext } from "../../Context/AuthContext"; // Importa el AuthContext
 
+// Función para obtener los productos
 const UserProfile = () => {
   const { userId } = useParams();
   const [productos, setProductos] = useState([]);
   const [usuario, setUsuario] = useState({});
-  const { productosFavoritos, handleClickFavoritos } = useContext(FavoritosContext);
+  const { productosFavoritos, handleClickFavoritos } = useContext(FavoritosContext); // Usa el FavoritosContext para manejar los favoritos
   const { isAuthenticated } = useContext(AuthContext); // Usa el AuthContext para verificar si el usuario está autenticado
 
   useEffect(() => {
+    // Función para obtener los productos
     const fetchProductos = async () => {
       try {
         const response = await axios.get(
+          // Obtener los productos a de la API
           `https://web-production-2e42.up.railway.app/api/productos/get/usuario/${userId}/`,
           {
             headers: {
@@ -26,15 +30,17 @@ const UserProfile = () => {
             },
           }
         );
+        // Almacenar los productos en el estado
         setProductos(response.data);
       } catch (error) {
         console.error("Hubo un error al obtener los productos:", error);
       }
     };
-
+    // Función para obtener la información del usuario
     const fetchUsuario = async () => {
       try {
         const response = await axios.get(
+          // Obtener la información del usuario a de la API
           `https://web-production-2e42.up.railway.app/api/usuarios/${userId}/`,
           {
             headers: {
@@ -42,32 +48,37 @@ const UserProfile = () => {
             },
           }
         );
+        // Almacenar la información del usuario en el estado
         setUsuario(response.data);
       } catch (error) {
         console.error("Hubo un error al obtener la información del usuario:", error);
       }
     };
-
+    // Llamar a las funciones para obtener los productos y la información del usuario
     fetchProductos();
     fetchUsuario();
+    // Establecer el título de la página con el nombre del usuario
     document.title = `Perfil de ${usuario.username}`;
-  }, [userId]);
-
+  }, [userId]); // Actualiza cada vez que cambie el ID de usuario
+  
+  // Función para agregar un producto al carrito
   const handleAddToCart = (event, productoId) => {
-    event.preventDefault();
-    addToCart(productoId);
+    event.preventDefault(); 
+    addToCart(productoId); // Llama a la función addToCart con el ID del producto
   };
 
+  // Establecer el título de la página con el nombre del usuario
   useEffect(() => {
     if (usuario.username) {
       document.title = `Perfil de ${usuario.username}`;
     }
-  }, [usuario]);
+  }, [usuario]); // Actualiza cada vez que cambie el usuario
 
   return (
     <>
       <div className="contenedor-perfil w-full h-96 grid grid-cols-1 md:grid-cols-2 place-items-center mt-5 mb-3">
         <div className="contenedor-perfil-img relative z-10 w-64 h-64 rounded-full overflow-hidden border-2 border-black">
+          {/* Imagen de perfil */}
           {usuario.imagen ? (
             <img
               src={`https://web-production-2e42.up.railway.app${usuario.imagen}`}
@@ -79,11 +90,14 @@ const UserProfile = () => {
           )}
         </div>
         <div className="contenedor-perfil-info">
+          {/* Nombre del usuario */}
           <h1>{usuario.username}</h1>
+          {/*Poner la fecha de creación de la cuenta del usuario  */}
           <p>Fecha de creación: {new Date(usuario.fecha_creacion).toLocaleDateString()}</p>
         </div>
       </div>
       <div className="contenedor-productos">
+        {/* Mostrar los productos del usuario si tiene */}
         {productos.length > 0
           ? productos.map((producto) => {
               const imagenes = [
@@ -99,6 +113,7 @@ const UserProfile = () => {
                   key={producto.id}
                   className="contenedor-producto relative bg-white transition p-1 mb-4"
                 >
+                  {/* Comprobar si el usuario está autenticado */}
                   {isAuthenticated && (
                     <button
                       onClick={() => handleClickFavoritos(producto.id)}
@@ -106,6 +121,7 @@ const UserProfile = () => {
                         productosFavoritos[producto.id] ? "bg-red-500" : "bg-white"
                       }`}
                     >
+                      {/* Icono de favoritos, cambia el color de fondo y el icono si el producto ya se encuentra en favoritos SI ESTAS AUTENTICADO */}
                       <span className="sr-only">Wishlist</span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -124,6 +140,7 @@ const UserProfile = () => {
                     </button>
                   )}
                   <div className="contenedor-imagen flex justify-center items-center p-1">
+                    {/* Mostrar un carrousel si hay más de una imagen */}
                     {imagenes.length > 1 ? (
                       <Carousel
                         showArrows={true}
@@ -177,6 +194,7 @@ const UserProfile = () => {
                         className="w-10 h-10 rounded-full mr-2 border-2 border-black"
                         alt={producto.id_usuario.username}
                       />
+                      {/*Redireccionar a la página del usuario  */}
                       <Link
                         to={`/user/${producto.id_usuario.id}`}
                         className="text-sm text-gray-700 hover:underline"  
@@ -187,6 +205,7 @@ const UserProfile = () => {
                   </div>
                   {isAuthenticated && (
                     <div className="mt-4">
+                      {/* Comprobar si el usuario está autenticado */}
                       <form>
                         <button
                           className="block boton-comprar bg-purple-400 p-4 text-sm font-medium transition"
@@ -204,6 +223,7 @@ const UserProfile = () => {
       </div>
       {productos.length === 0 && (
         <div className="contenedor-no-producto h-screen w-full flex justify-center ">
+          {/* Mostrar un mensaje si no hay productos disponibles */}
           No hay productos disponibles
         </div>
       )}

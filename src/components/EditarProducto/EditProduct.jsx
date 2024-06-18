@@ -1,16 +1,19 @@
+// Importar los componentes necesarios
 import { useState } from 'react';
 import { updateProduct } from '../../logic/LogicUpdateProducto';
 
+// Función para editar un producto
 const EditProduct = ({ product, onUpdate }) => {
+  // Establecer los valores iniciales del formulario
   const [formData, setFormData] = useState({
     nombre: product.nombre,
     descripcion: product.descripcion,
     talla: product.talla,
     categoria: product.categoria,
     precio: product.precio,
-    // Imagen será manejada aparte
   });
 
+  // Manejar los cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -19,21 +22,28 @@ const EditProduct = ({ product, onUpdate }) => {
     });
   };
 
+// Manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Llamar a la función de actualización de usuario
       const updatedProduct = await updateProduct(product.id, formData);
+      // Devolver el usuario actualizado
       console.log('Producto actualizado:', updatedProduct);
       onUpdate(updatedProduct);
     } catch (error) {
+      // Manejar el error
       console.error('Hubo un error al actualizar el producto:', error);
     }
   };
 
   return (
+    
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Campos del formulario y renderizarlos */}
       <div>
         <label className="block text-sm font-medium text-gray-700">Nombre:</label>
+        {/* Llamar a la función para manejar los cambios */}
         <input
           type="text"
           name="nombre"
@@ -64,6 +74,7 @@ const EditProduct = ({ product, onUpdate }) => {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Categoría:</label>
+        {/* Llamar a la función para manejar los cambios */}
         <select
           name="categoria"
           value={formData.categoria}

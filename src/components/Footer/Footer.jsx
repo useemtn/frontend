@@ -1,12 +1,15 @@
+// Importar los componentes necesarios
 import { Link } from "react-router-dom";
 import image from "../../assets/image_brand.webp";
 
+// Definir el componente Footer
 const Footer = () => {
   return (
-    <footer className="bg-white shadow dark:bg-black w-full mt-auto"> {/* Cambié self-end y justify-self-end a mt-auto */}
+    <footer className="bg-white shadow dark:bg-black w-full mt-auto"> 
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:items-center md:justify-between">
           <div className="flex items-center justify-center md:justify-start mb-4 md:mb-0">
+            {/* Redirigir a la página principal */}
             <Link to="/index" className="flex items-center space-x-3 rtl:space-x-reverse">
               <img src={image} className="h-20 w-20 rounded-full" alt="Flowbite Logo" />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">

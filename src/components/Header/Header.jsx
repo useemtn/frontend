@@ -1,3 +1,4 @@
+// Importar los componentes necesarios
 import { AuthContext } from "../../Context/AuthContext";
 import "../../css/Header.css";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -9,8 +10,10 @@ import { fetchCategorias } from "../../logic/LogicGetCategorias.js";
 import axios from "axios";
 import image from "../../assets/image_brand.webp";
 
+// Componente Header
 const Header = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  // Variables de estado
+  const { isAuthenticated, logout } = useContext(AuthContext); // Obtener el estado de autenticación
   const [carrito, setCarrito] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isDropdownOpenProfile, setIsDropdownOpenProfile] = useState(false);
@@ -22,6 +25,7 @@ const Header = () => {
   const menuRef = useRef(null);
   const profileRef = useRef(null);
 
+  // Obtener categorías
   useEffect(() => {
     const obtenerCategorias = async () => {
       const categorias = await fetchCategorias();
@@ -30,7 +34,7 @@ const Header = () => {
 
     obtenerCategorias();
   }, []);
-
+  // Cerrar menu desplegable al hacer click afuera
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -46,7 +50,7 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  // Función para calcular el total
   const calcularTotal = (carrito) => {
     if (carrito && carrito.productos.length > 0) {
       const total = carrito.productos.reduce(
@@ -58,20 +62,22 @@ const Header = () => {
       setTotal(0);
     }
   };
-
+  // Manejador para cerrar el menu
   const handleClick = async () => {
     const data = await getCarrito();
-    setCarrito(data);
+    setCarrito(data); // 
     calcularTotal(data);
-    setIsDropdownOpen(!isDropdownOpen);
-    setIsDropdownOpenProfile(false); // Close profile dropdown if it's open
+    setIsDropdownOpen(!isDropdownOpen); // Cerrar o abrir el menu
+    setIsDropdownOpenProfile(false); // Cerrar el menu de perfil al cerrar el menu
   };
 
+  // Manejador para cerrar el menu de perfil
   const handleClickProfile = () => {
     setIsDropdownOpenProfile(!isDropdownOpenProfile);
-    setIsDropdownOpen(false); // Close cart dropdown if it's open
+    setIsDropdownOpen(false); // Cerrar menú carrito 
   };
 
+  // Función para remover un producto
   const handleRemove = async (id) => {
     await removeProductoCarrito(id);
     const data = await getCarrito();
@@ -79,15 +85,18 @@ const Header = () => {
     calcularTotal(data);
   };
 
+  // Manejador para cambiar la categoría
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
     setQuery("");
     navigate(`/productos?categoria=${selectedCategory}`);
   };
 
+  // Manejador para buscar
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
+      // Obtiene el token de autenticación del usuario
       const token = localStorage.getItem("token");
       const config = {
         headers: {
@@ -95,17 +104,20 @@ const Header = () => {
           ...(token && { Authorization: `Token ${token}` }),
         },
       };
-
+      // Realiza la llamada a la API
       const response = await axios.get(
         `https://web-production-2e42.up.railway.app/api/search/?search=${query}`,
         config
       );
+
+      // Redirige a la página de productos
       navigate("/productos", { state: { results: response.data } });
     } catch (error) {
       console.error("Error al buscar productos:", error);
     }
   };
 
+  // Estados que comprueba si la ruta actual es "/favoritos" o "/perfil" para cerrar el menu
   const isFavoritosPage = location.pathname === "/favoritos";
   const isProfilePage = location.pathname === "/perfil";
   const handleCheckout = () => {
@@ -117,11 +129,13 @@ const Header = () => {
     <div className="navbar sticky top-0 z-50 bg-purple-400">
       <div className="container mx-auto px-4 py-8 flex items-center">
         <div className="mr-auto h-20 w-20 rounded-full flex-shrink-0">
+          {/* Redirigir a la página principal */}
           <Link to="/index">
             <img className="object-cover rounded-full" src={image} alt="Logo" />
           </Link>
         </div>
 
+        {/* Caja de búsqueda desaparece si la ruta es "/favoritos" o "/perfil" */}
         {!isFavoritosPage && !isProfilePage && (
           <div className="w-full max-w-xs xl:max-w-lg 2xl:max-w-2xl bg-gray-100 rounded-md hidden xl:flex items-center">
             <select
@@ -134,12 +148,14 @@ const Header = () => {
               }
             >
               <option value="">Todas las Categorías</option>
+              {/* Mostrar las categorías en el select */}
               {categorias.map((categoria) => (
                 <option key={categoria} value={categoria}>
                   {categoria}
                 </option>
               ))}
             </select>
+            {/* Caja de búsqueda */}
             <form onSubmit={handleSearch} className="flex items-center w-full">
               <input
                 className="border-l p-4 text-base border-gray-300 bg-transparent font-semibold text-sm pl-4 flex-grow"
@@ -179,6 +195,7 @@ const Header = () => {
                   className="ml-2 lg:ml-4 relative inline-block"
                   ref={profileRef}
                 >
+                  {/* Botón de perfil */}
                   <a href="#" onClick={handleClickProfile}>
                     <svg
                       className="h-9 lg:h-10 p-2 text-black hover:scale-110"
@@ -196,6 +213,7 @@ const Header = () => {
                       ></path>
                     </svg>
                   </a>
+                  {/* Dropdown de perfil y redirecciones */}
                   {isDropdownOpenProfile && (
                     <div className="dropdown-menu-perfil z-50 absolute bg-white text-base float-left py-2 list-none text-left">
                       <Link
@@ -210,6 +228,7 @@ const Header = () => {
                       >
                         Mis Pedidos
                       </Link>
+                      {/* Cerrar sesión */}
                       <div
                         className="boton-cerrar font-bold text-red-500 flex items-center cursor-pointer justify-center w-full hover:bg-gray-200"
                         onClick={() => {
@@ -245,6 +264,7 @@ const Header = () => {
                   className="ml-2 lg:ml-4 relative inline-block"
                   ref={menuRef}
                 >
+                  {/* Dropdown de carrito de compras y redirecciones */}
                   <a href="#" onClick={handleClick}>
                     <svg
                       className="h-9 lg:h-10 p-2 text-black hover:scale-110"
@@ -264,6 +284,7 @@ const Header = () => {
                   </a>
                   {isDropdownOpen && (
                     <div className="dropdown-menu absolute bg-white text-base float-left py-2 list-none text-left">
+                      {/* Contenido del dropdown de carrito de compras */}
                       {carrito ? (
                         <>
                           {carrito.productos.map((producto, index) => (
@@ -311,6 +332,7 @@ const Header = () => {
                           ))}
                           <br></br>
                           <div className="total p-3">
+                            {/* Truncar el total en 2 decimales */}
                             <strong>Total a pagar: {total.toFixed(2)} €</strong>
                           </div>
                           <div className="boton-checkout flex justify-center items-center h-auto m-4">
@@ -325,6 +347,7 @@ const Header = () => {
                         </>
                       ) : (
                         <p className="flex justify-center items-center h-auto w-auto">
+                          {/* Si no hay productos, mostrar un mensaje */}
                           No hay productos
                         </p>
                       )}
@@ -337,6 +360,7 @@ const Header = () => {
               </>
             ) : (
               <>
+                {/* Si no hay usuario, mostrar los elementos de la barra de navegación sin registrar o iniciar sesión. */}
                 <li className="ml-2 cursor-pointer lg:ml-4 rounded-lg relative inline-block m-4 p-2 border-2 border-black bg-white font-bold text-purple-500 hover:scale-105">
                   <Link to="/login">Iniciar Sesión</Link>
                 </li>

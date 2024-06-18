@@ -1,3 +1,4 @@
+// Importar los componentes necesarios
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import axios from "axios";
@@ -8,34 +9,42 @@ import { Link } from "react-router-dom";
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
+// Función para obtener los productos favoritos
 const ProductosFavoritos = () => {
+  // Variables de estado
   const [productos, setProductos] = useState([]);
   const { productosFavoritos, handleClickFavoritos } = useContext(FavoritosContext);
-  const { isAuthenticated } = useContext(AuthContext);
-
+  const { isAuthenticated } = useContext(AuthContext); // Obtener el estado de autenticación
+  // Funciones de estado
   useEffect(() => {
     document.title = "Favoritos";
+
+    // Comprobar si el usuario está autenticado
     if (isAuthenticated) {
       axios
-        .get("https://web-production-2e42.up.railway.app/api/favoritos/get/", {
+        .get("https://web-production-2e42.up.railway.app/api/favoritos/get/", { // Obtener los productos favoritos si el usuario esta autenticado
           headers: {
             "Content-Type": "application/json",
             Authorization: `Token ${localStorage.getItem("token")}`,
           },
         })
+        // Almacenar los productos favoritos en el estado
         .then((response) => {
           setProductos(response.data);
         })
+        // Mostrar un mensaje de error si hay un error al obtener los productos favoritos
         .catch((error) => {
           console.error("Hubo un error al obtener los productos:", error);
         });
     }
-  }, [productosFavoritos, isAuthenticated]);
+  }, [productosFavoritos, isAuthenticated]); // Actualizar cada vez que cambien los productos favoritos o el estado de autenticación
 
   return (
     <>
+      {/* Mostrar los productos favoritos si es mayor que 0 */}
       {productos.length > 0 ? (
         <div className="contenedor-productos">
+          {/* Mostrar los productos favoritos */}
           {productos.map((producto) => {
             const imagenes = [
               producto.id_producto.imagen, 
@@ -50,6 +59,7 @@ const ProductosFavoritos = () => {
                 key={producto.id_producto.id}
                 className="contenedor-producto relative bg-white transition p-1 mb-4"
               >
+                {/* Botón de favoritos, cambia el color de fondo y el icono si el producto ya se encuentra en favoritos */}
                 <button
                   onClick={() => handleClickFavoritos(producto.id_producto.id)}
                   className={`absolute end-4 top-4 hover:scale-125 rounded-full z-10 p-1.5 text-gray-900 transition ${
@@ -75,6 +85,7 @@ const ProductosFavoritos = () => {
                   </svg>
                 </button>
                 <div className="contenedor-imagen flex justify-center items-center p-1">
+                  {/* Mostrar un carrousel si hay más de una imagen */}
                   {imagenes.length > 1 ? (
                     <Carousel
                       showArrows={true}
@@ -141,6 +152,7 @@ const ProductosFavoritos = () => {
                 </div>
                 <div className="mt-4">
                   <form>
+                    {/* Botón para anadir al carrito */}
                     <button
                       className="block boton-comprar w-full bg-purple-400 p-4 text-sm font-medium transition"
                       onClick={() => addToCart(producto.id_producto.id)}

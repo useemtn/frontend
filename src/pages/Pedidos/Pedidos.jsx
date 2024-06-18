@@ -1,44 +1,56 @@
+// Importar los componentes necesarios
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 import axios from 'axios';
 import ProductosDialog from '../../components/ProductosDialog/ProductosDialoag';
 import 'tailwindcss/tailwind.css';
 
+// Función para obtener los pedidos
 const Pedidos = () => {
+  // Variables de estado
   const [pedidos, setPedidos] = useState([]);
   const [selectedPedido, setSelectedPedido] = useState(null);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext); // Obtener el estado de autenticación
+
+  // Funciones de estado
   useEffect(() => {
     document.title = "Mis pedidos";
+    // Comprobar si el usuario está autenticado
     if (isAuthenticated) {
       axios
-        .get('https://web-production-2e42.up.railway.app/api/pedidos/get/', {
+        .get('https://web-production-2e42.up.railway.app/api/pedidos/get/', { // Obtener los pedidos si el usuario esta autenticado
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Token ${localStorage.getItem('token')}`,
           },
         })
         .then((response) => {
-          console.log(response.data); // Verifica la estructura de los datos aquí
+          console.log(response.data); // Imprimir los datos de la respuesta
           setPedidos(response.data);
         })
         .catch((error) => {
+          // Mostrar un mensaje de error si hay un error al obtener los pedidos
           console.error('Hubo un error al obtener los pedidos:', error);
         });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated]); // Actualizar cada vez que cambie el estado de autenticación
 
+  // Función para abrir el diálogo de pedido
   const openDialog = (pedido) => {
+    // Abrir el diálogo de pedido
     setSelectedPedido(pedido);
   };
 
+  // Función para cerrar el diálogo de pedido
   const closeDialog = () => {
+    // Cerrar el diálogo de pedido
     setSelectedPedido(null);
   };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Mis Pedidos</h1>
+      {/* Mostrar los pedidos si es mayor que 0 */}
       {pedidos.length > 0 ? (
         pedidos.map((pedido) => (
           <div key={pedido.id} className="border-b py-4 mb-4">
@@ -59,9 +71,13 @@ const Pedidos = () => {
           </div>
         ))
       ) : (
-        <p>No tienes pedidos.</p>
+        <p>
+          {/* Mostrar un mensaje si no hay pedidos */}
+          No tienes pedidos.
+        </p>
       )}
 
+      {/* Mostrar el diálogo de pedido si hay uno seleccionado */}
       {selectedPedido && (
         <ProductosDialog 
           pedido={selectedPedido}

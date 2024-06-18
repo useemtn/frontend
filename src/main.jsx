@@ -1,3 +1,4 @@
+// Importar los componentes necesarios
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -10,13 +11,16 @@ import Profile from "./pages/Profile/Profile.jsx";
 import Favoritos from "./pages/Favoritos/Favoritos.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import Vender from "./pages/Vender/Vender.jsx";
-import UserProfile from "./pages/UserProfile/UserProfile.jsx"; // Importa el nuevo componente
+import UserProfile from "./pages/UserProfile/UserProfile.jsx"; 
 import Pedidos from "./pages/Pedidos/Pedidos.jsx";
+import NotFound from "./pages/NotFound/NotFound.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import { FavoritosProvider } from "./Context/FavoritosContext.jsx";
 import "./index.css";
 
+// Crear el router, hay que deinir la ruta URL y el componente. Para ello sirve el Layout.
 const router = createBrowserRouter([
+  // Definir las rutas
   {
     path: "/",
     element: <App />,
@@ -90,6 +94,14 @@ const router = createBrowserRouter([
     element: (
       <MainLayout>
         <Productos />
+      </MainLayout>
+    ),
+  },
+  {
+    path: "/*",
+    element: (
+      <MainLayout>
+        <NotFound />
       </MainLayout>
     ),
   },

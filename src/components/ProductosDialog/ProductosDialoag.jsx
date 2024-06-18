@@ -1,7 +1,9 @@
-import React from 'react';
+// Importar Tailwind CSS
 import 'tailwindcss/tailwind.css';
 
+// Crear el componente
 const ProductosDialog = ({ pedido, isOpen, onClose }) => {
+  // Si el diálogo no se ha abierto, no mostrarlo
   if (!isOpen) return null;
 
   return (
@@ -17,8 +19,10 @@ const ProductosDialog = ({ pedido, isOpen, onClose }) => {
           </button>
         </div>
         <div className="px-4 py-4 max-h-80 overflow-y-auto">
+          {/* Cuerpo del diálogo */}
           {pedido.productos.map((producto) => (
             <div key={producto.id} className="mb-4">
+              {/* Imagen del producto */}
               <img
                 src={`https://web-production-2e42.up.railway.app${producto.id_producto.imagen}`}
                 alt={producto.id_producto.nombre}
@@ -32,6 +36,7 @@ const ProductosDialog = ({ pedido, isOpen, onClose }) => {
           ))}
         </div>
         <div className="px-4 py-2 bg-gray-200 flex justify-end">
+          {/* Crea un botón de cerrar*/}
           <button
             className="bg-purple-500 text-white py-2 px-4 rounded hover:bg-purple-700"
             onClick={onClose}

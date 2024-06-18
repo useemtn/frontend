@@ -1,5 +1,5 @@
 import imagen from "./assets/collage.png";
-
+// Componente Autenticar que es la primera página que aparecerá, es un simple componente HTML.
 const Autenticar = () => {
   return (
     <div className="bg-gradient-to-b from-[#000000] relative to-[#9F4AFF] min-h-screen">

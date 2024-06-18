@@ -1,13 +1,17 @@
+// Importar los componentes necesarios
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 
+// Función para registrar un nuevo producto
 const Vender = () => {
+
+    // Variables de estado
     useEffect(() => {
         document.title = "Subir Producto";
     }, []);
-
+    // Establecer valores por defecto
     const [nombre, setNombre] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [talla, setTalla] = useState('');
@@ -18,31 +22,36 @@ const Vender = () => {
     const [showMoreImages, setShowMoreImages] = useState(false);
     const navigate = useNavigate();
 
+    // Manejadores de formulario
     const handleRegister = async (event) => {
         event.preventDefault();
 
+        // Validar que el usuario no pueda subir más de 4 imagenes
         if (showMoreImages && moreImages.length > 4) {
             toast.error("No puedes añadir más de 4 imágenes adicionales. El producto se subirá solo con una imagen.");
             setShowMoreImages(false);
-            setMoreImages([]); // Clear additional images
+            setMoreImages([]); // Eliminar las imagenes adicionales en caso de superar el limite
             return;
         }
 
+        // Crear el objeto FormData con los datos del formulario 
         const formData = new FormData();
         formData.append('nombre', nombre);
         formData.append('descripcion', descripcion);
         formData.append('talla', talla);
         formData.append('categoria', categoria);
         formData.append('precio', precio);
-        if (imagen) {
+        if (imagen) { // Validar que la imagen no sea nula
             formData.append('imagen', imagen);
         }
+        // Anexar las imagenes adicionales
         if (showMoreImages) {
             moreImages.forEach((img, index) => {
                 formData.append(`imagen${index + 2}`, img);
             });
         }
         try {
+            // Llamar a la API para registrar el nuevo producto
             const response = await axios.post('https://web-production-2e42.up.railway.app/api/productos/add/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -53,9 +62,10 @@ const Vender = () => {
             toast.success('Producto subido con éxito!'); // Notificación de éxito
             navigate('/index');
         } catch (error) {
+            // Mostrar un mensaje de error
             if (error.response && error.response.data) {
                 console.error('Error registrando producto:', error.response.data);
-                toast.error('Error al subir el producto.');
+                toast.error('Error al subir el producto.'); // Notificación de error
             } else {
                 console.error('Error registrando producto:', error.message);
                 toast.error('Error al subir el producto.');
@@ -63,20 +73,22 @@ const Vender = () => {
         }
     };
 
+    // Manejadores de imagen
     const handleMoreImages = (event) => {
-        const selectedFiles = Array.from(event.target.files);
-        if (moreImages.length + selectedFiles.length > 4) {
+        const selectedFiles = Array.from(event.target.files); // Convertir los archivos seleccionados en un arreglo
+        if (moreImages.length + selectedFiles.length > 4) { // Validar que el usuario no pueda subir más de 4 imagenes
             toast.error("No puedes añadir más de 4 imágenes adicionales. El producto se subirá solo con una imagen.");
             setShowMoreImages(false);
-            setMoreImages([]); // Clear additional images
+            setMoreImages([]); // Eliminar las imagenes adicionales en caso de superar el limite
         } else {
             setMoreImages([...moreImages, ...selectedFiles.slice(0, 4 - moreImages.length)]);
         }
     };
 
+    // Manejadores de imagen
     const handleRemoveImage = (index) => {
-        const newImages = moreImages.filter((_, i) => i !== index);
-        setMoreImages(newImages);
+        const newImages = moreImages.filter((_, i) => i !== index); // Eliminar la imagen seleccionada
+        setMoreImages(newImages); // Actualizar el estado de las imagenes
     };
 
     return (
@@ -89,6 +101,7 @@ const Vender = () => {
                         <label className="block mb-6 text-sm text-gray-700 text-center font-semibold">
                             Subir producto
                         </label>
+                        {/* Formulario y manejadores de datos*/}
                         <form id="registerForm" className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleRegister}>
                             <div className="col-span-1">
                                 <input type="text" id="nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre del producto" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required/>
@@ -114,6 +127,7 @@ const Vender = () => {
                                 </select>
                             </div>
                             <div className="col-span-1">
+                                {/* Actualizar el valor del input mediante estados */}
                                 <input type="number" id="precio" value={precio} onChange={(e) => setPrecio(e.target.value)} placeholder="Precio" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0" required/>
                             </div>
                             <div className="col-span-1 md:col-span-2">
@@ -133,6 +147,7 @@ const Vender = () => {
                             </div>
                             {showMoreImages && (
                                 <div className="col-span-1 md:col-span-2">
+                                    {/* Subir más imágenes y manejarlas*/}
                                     <input type="file" onChange={handleMoreImages} multiple accept="image/*" className="mt-1 p-2 w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg focus:ring-0" />
                                     <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                                         {moreImages.length > 0 && moreImages.map((image, index) => (

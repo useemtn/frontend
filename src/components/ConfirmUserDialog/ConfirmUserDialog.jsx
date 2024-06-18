@@ -1,4 +1,6 @@
+// Comprueba si el diálogo de confirmación se ha abierto
 const ConfirmUserDialog = ({ isOpen, onClose, onConfirm, message }) => {
+  // Si el diálogo no se ha abierto, no mostrarlo
     if (!isOpen) return null;
   
     return (
@@ -6,6 +8,7 @@ const ConfirmUserDialog = ({ isOpen, onClose, onConfirm, message }) => {
         <div className="bg-white p-8 rounded shadow-lg relative w-full max-w-sm">
           <h2 className="text-lg font-medium mb-4">{message}</h2>
           <div className="flex justify-end space-x-2">
+            {/* Crea un botón de cancelar y un botón de eliminar */}
             <button
               className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
               onClick={onClose}
