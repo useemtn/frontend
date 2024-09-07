@@ -83,7 +83,7 @@ const Register = () => {
 
         try {
             // Llamar a la API para registrar el usuario
-            const response = await axios.post('https://web-production-2e42.up.railway.app/api/register/', formData, {
+            const response = await axios.post('https://web-production-9f031.up.railway.app/api/register/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
