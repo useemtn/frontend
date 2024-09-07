@@ -3,7 +3,7 @@ import axios from 'axios';
 // Función para añadir un producto al carrito
 export async function addToCart(producto_id) {
     // Definir la URL de la API
-    const url = `https://web-production-2e42.up.railway.app/api/carrito/add/${producto_id}/`;
+    const url = `https://web-production-9f031.up.railway.app/api/carrito/add/${producto_id}/`;
     // Llamar a la API para añadir el producto
     try {
       const response = await axios.post(url, {}, {

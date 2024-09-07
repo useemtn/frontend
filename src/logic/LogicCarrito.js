@@ -3,7 +3,7 @@ import axios from "axios";
 // Función para obtener el carrito
 export async function getCarrito() {
     // Definir la URL de la API
-    const url = "https://web-production-2e42.up.railway.app/api/carritos/get/";
+    const url = "https://web-production-9f031.up.railway.app/api/carritos/get/";
     try {
         // Llamar a la API para obtener el carrito
         const response = await axios.get(url, {

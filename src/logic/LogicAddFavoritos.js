@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function addToFavoritos(product_id) {
     // Definir la URL de la API
-    const url = `https://web-production-2e42.up.railway.app/api/favoritos/add/${product_id}/`;
+    const url = `https://web-production-9f031.up.railway.app/api/favoritos/add/${product_id}/`;
     try {
         // Llamar a la API para añadir el producto
         const response = await axios.post(url, {}, {

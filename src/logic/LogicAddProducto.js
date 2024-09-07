@@ -9,7 +9,7 @@ const getUserIdFromToken = async (token) => {
             },
         };
         // Realizar peticióm get HTTP para obtener el ID del usuario
-        const res = await axios.get('https://web-production-2e42.up.railway.app/api/usuarios/', config);
+        const res = await axios.get('https://web-production-9f031.up.railway.app/api/usuarios/', config);
 
         // Devolver el ID del usuario
         return res.data.id;
@@ -42,7 +42,7 @@ export const SubirProducto = async () => {
             },
         };
         // Realizar la petición HTTP para subir el proyecto
-        const res = await axios.post('https://web-production-2e42.up.railway.app/api/add/', formData, config);
+        const res = await axios.post('https://web-production-9f031.up.railway.app/api/add/', formData, config);
         // Devolver el ID del producto subido
         return res.data;
     } catch (err) {

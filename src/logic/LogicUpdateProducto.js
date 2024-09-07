@@ -5,7 +5,7 @@ export const updateProduct = async (product_id, updateData) => {
   try {
     // Llamar a la API para actualizar el producto
     const response = await axios.patch(
-      `https://web-production-2e42.up.railway.app/api/productos/update/${product_id}/`,
+      `https://web-production-9f031.up.railway.app/api/productos/update/${product_id}/`,
       updateData,
       {
         headers: {

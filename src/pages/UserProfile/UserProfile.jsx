@@ -23,7 +23,7 @@ const UserProfile = () => {
       try {
         const response = await axios.get(
           // Obtener los productos a de la API
-          `https://web-production-2e42.up.railway.app/api/productos/get/usuario/${userId}/`,
+          `https://web-production-9f031.up.railway.app/api/productos/get/usuario/${userId}/`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -41,7 +41,7 @@ const UserProfile = () => {
       try {
         const response = await axios.get(
           // Obtener la información del usuario a de la API
-          `https://web-production-2e42.up.railway.app/api/usuarios/${userId}/`,
+          `https://web-production-9f031.up.railway.app/api/usuarios/${userId}/`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const UserProfile = () => {
           {/* Imagen de perfil */}
           {usuario.imagen ? (
             <img
-              src={`https://web-production-2e42.up.railway.app${usuario.imagen}`}
+              src={`https://web-production-9f031.up.railway.app${usuario.imagen}`}
               alt="Imagen de perfil"
               className="w-full h-full z-0 object-cover"
             />
@@ -155,7 +155,7 @@ const UserProfile = () => {
                           <div key={index}>
                             <img
                               alt={producto.nombre}
-                              src={img.startsWith("http") ? img : `https://web-production-2e42.up.railway.app${img}`}
+                              src={img.startsWith("http") ? img : `https://web-production-9f031.up.railway.app${img}`}
                               className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                             />
                           </div>
@@ -164,7 +164,7 @@ const UserProfile = () => {
                     ) : (
                       <img
                         alt={producto.nombre}
-                        src={producto.imagen.startsWith("http") ? producto.imagen : `https://web-production-2e42.up.railway.app${producto.imagen}`}
+                        src={producto.imagen.startsWith("http") ? producto.imagen : `https://web-production-9f031.up.railway.app${producto.imagen}`}
                         className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                       />
                     )}
@@ -188,7 +188,7 @@ const UserProfile = () => {
                           producto.id_usuario.imagen
                             ? producto.id_usuario.imagen.startsWith("http")
                               ? producto.id_usuario.imagen
-                              : `https://web-production-2e42.up.railway.app${producto.id_usuario.imagen}`
+                              : `https://web-production-9f031.up.railway.app${producto.id_usuario.imagen}`
                             : ""
                         }
                         className="w-10 h-10 rounded-full mr-2 border-2 border-black"

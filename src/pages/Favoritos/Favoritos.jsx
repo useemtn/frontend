@@ -22,7 +22,7 @@ const ProductosFavoritos = () => {
     // Comprobar si el usuario está autenticado
     if (isAuthenticated) {
       axios
-        .get("https://web-production-2e42.up.railway.app/api/favoritos/get/", { // Obtener los productos favoritos si el usuario esta autenticado
+        .get("https://web-production-9f031.up.railway.app/api/favoritos/get/", { // Obtener los productos favoritos si el usuario esta autenticado
           headers: {
             "Content-Type": "application/json",
             Authorization: `Token ${localStorage.getItem("token")}`,
@@ -100,7 +100,7 @@ const ProductosFavoritos = () => {
                         <div key={index}>
                           <img
                             alt={producto.id_producto.nombre}
-                            src={img.startsWith("http") ? img : `https://web-production-2e42.up.railway.app${img}`}
+                            src={img.startsWith("http") ? img : `https://web-production-9f031.up.railway.app${img}`}
                             className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                           />
                         </div>
@@ -109,7 +109,7 @@ const ProductosFavoritos = () => {
                   ) : (
                     <img
                       alt={producto.id_producto.nombre}
-                      src={producto.id_producto.imagen.startsWith("http") ? producto.id_producto.imagen : `https://web-production-2e42.up.railway.app${producto.id_producto.imagen}`}
+                      src={producto.id_producto.imagen.startsWith("http") ? producto.id_producto.imagen : `https://web-production-9f031.up.railway.app${producto.id_producto.imagen}`}
                       className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                     />
                   )}
@@ -136,7 +136,7 @@ const ProductosFavoritos = () => {
                         producto.id_producto.id_usuario.imagen
                           ? producto.id_producto.id_usuario.imagen.startsWith("http")
                             ? producto.id_producto.id_usuario.imagen
-                            : `https://web-production-2e42.up.railway.app${producto.id_producto.id_usuario.imagen}`
+                            : `https://web-production-9f031.up.railway.app${producto.id_producto.id_usuario.imagen}`
                           : ""
                       }
                       className="w-10 h-10 rounded-full mr-2 border-2 border-black"

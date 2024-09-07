@@ -3,7 +3,7 @@ import axios from "axios";
 // Función para eliminar un producto de favoritos
 export async function removeFromFavoritos(producto_id) {
     // Definir la URL de la API
-    const url = `https://web-production-2e42.up.railway.app/api/favoritos/remove/${producto_id}/`;
+    const url = `https://web-production-9f031.up.railway.app/api/favoritos/remove/${producto_id}/`;
     try {
         // Llamar a la API para eliminar el producto
         const response = await axios.post(url, {}, {

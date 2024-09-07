@@ -24,7 +24,7 @@ const ProductosDialog = ({ pedido, isOpen, onClose }) => {
             <div key={producto.id} className="mb-4">
               {/* Imagen del producto */}
               <img
-                src={`https://web-production-2e42.up.railway.app${producto.id_producto.imagen}`}
+                src={`https://web-production-9f031.up.railway.app${producto.id_producto.imagen}`}
                 alt={producto.id_producto.nombre}
                 className="w-full h-48 object-cover mb-2"
               />

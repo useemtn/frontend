@@ -52,7 +52,7 @@ const Vender = () => {
         }
         try {
             // Llamar a la API para registrar el nuevo producto
-            const response = await axios.post('https://web-production-2e42.up.railway.app/api/productos/add/', formData, {
+            const response = await axios.post('https://web-production-9f031.up.railway.app/api/productos/add/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Token ${localStorage.getItem('token')}`

@@ -106,7 +106,7 @@ const Header = () => {
       };
       // Realiza la llamada a la API
       const response = await axios.get(
-        `https://web-production-2e42.up.railway.app/api/search/?search=${query}`,
+        `https://web-production-9f031.up.railway.app/api/search/?search=${query}`,
         config
       );
 
@@ -302,7 +302,7 @@ const Header = () => {
                               <div className="imagen h-20 w-18">
                                 <img
                                   src={
-                                    "https://web-production-2e42.up.railway.app" +
+                                    "https://web-production-9f031.up.railway.app" +
                                     `${producto.id_producto.imagen}`
                                   }
                                   alt={producto.id_producto.nombre}

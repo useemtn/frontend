@@ -14,7 +14,7 @@ const SearchBar = () => {
     const handleSearch = async (query) => {
         try {
             // Llamar a la función para obtener los datos
-            const response = await axios.get(`https://web-production-2e42.up.railway.app/api/search/?search=${query}`);
+            const response = await axios.get(`https://web-production-9f031.up.railway.app/api/search/?search=${query}`);
 
             // Devolver los datos
             return response.data;

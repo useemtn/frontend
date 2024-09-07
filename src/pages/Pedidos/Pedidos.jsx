@@ -18,7 +18,7 @@ const Pedidos = () => {
     // Comprobar si el usuario está autenticado
     if (isAuthenticated) {
       axios
-        .get('https://web-production-2e42.up.railway.app/api/pedidos/get/', { // Obtener los pedidos si el usuario esta autenticado
+        .get('https://web-production-9f031.up.railway.app/api/pedidos/get/', { // Obtener los pedidos si el usuario esta autenticado
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Token ${localStorage.getItem('token')}`,

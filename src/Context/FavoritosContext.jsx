@@ -26,7 +26,7 @@ export const FavoritosProvider = ({ children }) => {
           // Obtener el token del localStorage
           const token = localStorage.getItem("token");
           // Hacer una llamada a la API para obtener los productos favoritos
-          const response = await axios.get("https://web-production-2e42.up.railway.app/api/favoritos/get/", {
+          const response = await axios.get("https://web-production-9f031.up.railway.app/api/favoritos/get/", {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Token ${token}`,

@@ -5,7 +5,7 @@ import axios from 'axios';
 export const fetchCategorias = async () => {
   try {
     // Llamar a la API para obtener las categorías
-    const response = await axios.get("https://web-production-2e42.up.railway.app/api/productos/get/categoria/");
+    const response = await axios.get("https://web-production-9f031.up.railway.app/api/productos/get/categoria/");
     // Devolver las categorías
     return response.data;
   } catch (error) {

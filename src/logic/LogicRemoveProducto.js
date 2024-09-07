@@ -5,7 +5,7 @@ export const removeProduct = async (product_id) => {
   try {
     // Llamar a la API para eliminar el producto
     const response = await axios.delete(
-      `https://web-production-2e42.up.railway.app/api/productos/remove/${product_id}/`,
+      `https://web-production-9f031.up.railway.app/api/productos/remove/${product_id}/`,
       {
         headers: {
           "Content-Type": "application/json",

@@ -13,7 +13,7 @@ export const updateUser = async (updateData) => {
     };
     // Llamar a la API para actualizar el usuario
     const response = await axios.patch(
-      `https://web-production-2e42.up.railway.app/api/usuarios/update/`,
+      `https://web-production-9f031.up.railway.app/api/usuarios/update/`,
       updateData,
       config
     );

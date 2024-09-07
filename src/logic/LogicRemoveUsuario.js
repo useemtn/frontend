@@ -13,7 +13,7 @@ export const removeUser = async () => {
     };
     // Llamar a la API para eliminar el usuario
     const response = await axios.delete(
-      `https://web-production-2e42.up.railway.app/api/usuarios/remove/`,
+      `https://web-production-9f031.up.railway.app/api/usuarios/remove/`,
       config
     );
     // Si la petición fue exitosa

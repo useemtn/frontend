@@ -31,7 +31,7 @@ const Profile = () => {
       try {
         // Obtener los productos a través de la API
         const response = await axios.get(
-          "https://web-production-2e42.up.railway.app/api/productos/get/usuario/",
+          "https://web-production-9f031.up.railway.app/api/productos/get/usuario/",
           {
             headers: {
               "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const Profile = () => {
       try {
         // Obtener los usuarios a través de la API
         const response = await axios.get(
-          "https://web-production-2e42.up.railway.app/api/usuarios/",
+          "https://web-production-9f031.up.railway.app/api/usuarios/",
           {
             headers: {
               "Content-Type": "application/json",
@@ -257,7 +257,7 @@ const Profile = () => {
                               src={
                                 img.startsWith("http")
                                   ? img
-                                  : `https://web-production-2e42.up.railway.app${img}`
+                                  : `https://web-production-9f031.up.railway.app${img}`
                               }
                               className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                             />
@@ -270,7 +270,7 @@ const Profile = () => {
                         src={
                           producto.imagen.startsWith("http")
                             ? producto.imagen
-                            : `https://web-production-2e42.up.railway.app${producto.imagen}`
+                            : `https://web-production-9f031.up.railway.app${producto.imagen}`
                         }
                         className="object-cover transition duration-500 group-hover:scale-105 sm:h-72"
                       />
