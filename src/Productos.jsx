@@ -36,7 +36,7 @@ const Productos = () => {
 
         // Llamar a la API para obtener los productos
         const response = await axios.get(
-          "web-production-9f031.up.railway.app/api/productos/",
+          "https://web-production-9f031.up.railway.app/api/productos/",
           config
         );
 
