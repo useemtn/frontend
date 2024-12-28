@@ -71,13 +71,7 @@ const Productos = () => {
     : productos;
 
   // Si los resultados de la búsqueda son vacíos, mostrar todos los productos
- const productosAMostrar =
-  searchResults.length > 0
-    ? searchResults
-    : categoria
-    ? filteredProductos
-    : productos;
-
+  const productosAMostrar = searchResults.length > 0 ? searchResults : filteredProductos;
   // Función para agregar un producto al carrito obteniendo el ID del producto
   const handleAddToCart = (event, productoId) => {
     event.preventDefault();
