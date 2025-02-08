@@ -1,8 +1,25 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🚀 Mi Proyecto React con Vite
+Este es un frontend desarrollado con React y Vite para conmsumir los métodos del backend y mostrar al usuario de manera interactiva los productos del ecommerce. Es rápido, modular y fácil de mantener.
+## 🛠️ Requisitos previos
+Antes de instalar, asegúrate de tener:
+- Node.js (versión recomendada: 16 o superior)
+- Git (opcional, pero recomendado)
+## 📦 Instalación
+- Clona este repositorio:
+```sh
+git clone https://github.com/useemtn/frontend.git
+```
+- Ingresa a la carpeta del proyecto:
+```sh
+cd .\frontend 
+```
+- Instala las dependencias:
+```sh
+npm install
+```
+## 🚀 Ejecutar el proyecto
+Para iniciar el servidor en modo desarrollo, usa:
+```sh
+npm run dev
+```
+Luego, abre http://localhost:5173 en tu navegador.
